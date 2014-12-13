@@ -18,7 +18,7 @@ gem 'rake', '~> 0.9.6'
 #
 gem 'coderay'
 
-gem 'dotenv-rails'
+# gem 'dotenv-rails'
 
 group :development do
   gem 'pry'
