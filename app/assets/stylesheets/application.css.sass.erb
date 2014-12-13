@@ -11,5 +11,37 @@
  * file per style scope.
  *
  *= require_tree .
+ *= require coderay-styles
  *= require_self
  */
+
+@import "bootstrap-sprockets"
+@import "bootstrap"
+
+html
+  height: 100%
+
+body
+  height: 100%
+
+.main-container
+  background-image: url('<%= asset_path 'bg-sand.png' %>')
+  min-height: 100%
+  padding-top: 70px
+
+
+.custom-well
+  background-color: #fff
+  pre
+    background-color: #fff
+
+hr
+  -moz-border-bottom-colors: none
+  -moz-border-image: none
+  -moz-border-left-colors: none
+  -moz-border-right-colors: none
+  -moz-border-top-colors: none
+  border-color: #EEEEEE -moz-use-text-color #FFFFFF
+  border-style: solid none
+  border-width: 1px 0
+  margin: 18px 0

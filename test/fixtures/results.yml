@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ruby_version_id: 
+  ruby_benchmark_id: 
+  run_at: 2014-12-12 17:18:31
+  time: 9.99
+
+two:
+  ruby_version_id: 
+  ruby_benchmark_id: 
+  run_at: 2014-12-12 17:18:31
+  time: 9.99
