@@ -16,6 +16,15 @@ gem 'rake', '~> 0.9.6'
 #
 # $ rhc env set BUNDLE_WITHOUT="development test postgresql"
 #
+gem 'coderay'
+
+gem 'dotenv-rails'
+
+group :development do
+  gem 'pry'
+end
+
+
 group :development, :test do
   gem 'sqlite3'
   gem 'minitest'
@@ -35,6 +44,7 @@ end
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
+gem 'bootstrap-sass', '~> 3.2.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
