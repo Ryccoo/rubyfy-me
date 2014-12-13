@@ -27,7 +27,13 @@ defaults: &defaults
   <<: *<%= ENV['RAILS_DB'] || "sqlite" %>
 
 development:
-  <<: *defaults
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  username: ruby
+  password: ruby
+  socket: /var/run/mysqld/mysqld.sock
+  database: rubybench_development
 
 test: &test
   <<: *defaults
