@@ -6,16 +6,36 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-versions = RubyVersion.create([{name: :mri1}, {name: :mri2}, {name: :mri3}])
-benchmarks = RubyBenchmark.create([{name: :fake_bench1}, {name: :fake_bench2}, {name: :fake_bench3}])
+versions = RubyVersion.create([
+                                {full_name: 'ruby-1.8.6'},
+                                {full_name: 'ruby-1.8.7'},
+                                {full_name: 'ruby-1.8.1'},
+                                {full_name: 'ruby-1.9.2'},
+                                {full_name: 'ruby-1.9.3'},
+                                {full_name: 'ruby-2.0.0'},
+                                {full_name: 'ruby-2.1.1'},
+                                {full_name: 'ruby-2.1.5'},
+                                {full_name: 'jruby-1.6.8'},
+                                {full_name: 'jruby-1.7.12'},
+                                {full_name: 'rubinius-1.0.0'},
+                                {full_name: 'rubinius-2.0.0'}
+                              ])
+benchmarks = RubyBenchmark.create([
+                                    {name: :fake_bench1, benchmark_collection: 'benchmark_game'},
+                                    {name: :fake_bench2, benchmark_collection: 'benchmark_game'},
+                                    {name: :fake_bench3, benchmark_collection: 'other_benchmarks'}
+                                  ])
 
 versions.each do |v|
   benchmarks.each do |b|
-    Result.create(
-      ruby_version: v,
-      ruby_benchmark: b,
-      time: Random.rand(50)
-    )
+    20.times do
+      Result.create(
+        ruby_version: v,
+        ruby_benchmark: b,
+        run_at: Time.current,
+        time: Random.rand(50)
+      )
+    end
   end
 end
 

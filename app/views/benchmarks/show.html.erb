@@ -1,69 +1,31 @@
+<%= content_for :title do %>
+  Benchmark - <%= @benchmark.name.capitalize %>
+<% end %>
+
 <div class="row">
   <div class="col-xs-12 text-center">
-    <h2>Select benchmark</h2>
+    <h2 class="ruby">Select benchmark</h2>
   </div>
 </div>
 <div class="row">
   <div class="col-xs-12">
-    <%= select_tag(:ruby_benchmark, options_from_collection_for_select(@benchmarks, :id, :name), allow_blank: false, class: 'form-control') %>
+    <%= select_tag(:ruby_benchmark, grouped_options_for_select(@grouped_benchmarks, @benchmark.name), allow_blank: false, class: 'form-control') %>
   </div>
 </div>
 <br>
 <hr>
+<%= javascript_tag 'new window.benchmark_selector()' %>
+<%= render partial: 'benchmark_average' %>
 <div class="row">
-  <div class="col-xs-12">
-    <div id="chart"></div>
-  </div>
-</div>
-<br>
-<hr>
-<div class="row">
-  <div class="col-xs-10 col-xs-offset-1">
-    <div class="custom-well CodeRay">
-      <pre><%= CodeRay.scan(@selected.source, :ruby).html(
-              :wrap => nil,
-              :line_numbers => :inline
-            ).html_safe %>
+  <div class="col-xs-10 col-xs-offset-1 text-center">
+    <h2 class="ruby">Source</h2>
+    <div class="custom-well CodeRay text-left">
+      <pre><%= CodeRay.scan(@benchmark.source, :ruby).html(
+                 :wrap => nil,
+                 :line_numbers => :inline
+               ).html_safe %>
       </pre>
     </div>
   </div>
 </div>
 <br>
-<script>
-  $(function () {
-    $('#chart').highcharts({
-      chart: {
-        type: 'line'
-      },
-      title: {
-        text: 'Monthly Average Temperature'
-      },
-      subtitle: {
-        text: 'Source: WorldClimate.com'
-      },
-      xAxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-      },
-      yAxis: {
-        title: {
-          text: 'Temperature (°C)'
-        }
-      },
-      plotOptions: {
-        line: {
-          dataLabels: {
-            enabled: true
-          },
-          enableMouseTracking: false
-        }
-      },
-      series: [{
-        name: 'Tokyo',
-        data: [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-      }, {
-        name: 'London',
-        data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
-      }]
-    });
-  });
-</script>

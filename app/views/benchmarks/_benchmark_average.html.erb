@@ -1,0 +1,60 @@
+
+<div class="row">
+  <div class="col-xs-12">
+    <div id="chart"></div>
+  </div>
+</div>
+<br>
+<hr>
+<script>
+  $(function () {
+    $('#chart').highcharts({
+      chart: {
+        type: 'column'
+      },
+      title: {
+        text: '<%= @benchmark.name.capitalize %> results'
+      },
+      xAxis: {
+        type: 'category',
+        title: {
+          text: 'Versions'
+        }
+      },
+      yAxis: {
+        title: {
+          text: 'Time (second)'
+        },
+        min: 0
+      },
+      plotOptions: {
+        line: {
+          dataLabels: {
+            enabled:  true
+          },
+          enableMouseTracking: false
+        }
+      },
+      tooltip: {
+        pointFormat: '<b>{point.y:,.4f}</b> sec'
+      },
+      series: [{
+        upColor: Highcharts.getOptions().colors[2],
+        color: Highcharts.getOptions().colors[3],
+        name: '<%= @benchmark.name %>',
+        // Define the data points. All series have a dummy year
+        // of 1970/71 in order to be compared on the same x axis. Note
+        // that in JavaScript, months start at 0 for January, 1 for February etc.
+        data: [
+          <% @results.each do |version, data| %>
+          {
+            name: '<%= version %>',
+            y: <%= data[:average] %>,
+            color: Highcharts.getOptions().colors[<%= RubyVersion::IMPLEMENTATIONS.values.index data[:implementation] %>]
+          },
+          <% end %>
+        ]},
+      ]
+    });
+  });
+</script>

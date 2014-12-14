@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141212162355) do
+ActiveRecord::Schema.define(version: 20141214125402) do
 
   create_table "results", force: true do |t|
     t.integer  "ruby_version_id"
@@ -34,11 +34,12 @@ ActiveRecord::Schema.define(version: 20141212162355) do
     t.text     "display_source"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "benchmark_collection"
   end
 
   create_table "ruby_versions", force: true do |t|
     t.string   "name"
-    t.string   "type"
+    t.string   "implementation"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

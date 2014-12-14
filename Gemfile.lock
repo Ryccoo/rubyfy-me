@@ -27,6 +27,9 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    annotate (2.6.5)
+      activerecord (>= 2.3.0)
+      rake (>= 0.8.7)
     arel (5.0.1.20140414130214)
     bootstrap-sass (3.2.0.2)
       sass (~> 3.2)
@@ -42,6 +45,7 @@ GEM
     erubis (2.7.0)
     execjs (2.2.1)
     hike (1.2.3)
+    hirb (0.7.2)
     i18n (0.6.11)
     jbuilder (2.1.2)
       activesupport (>= 3.0.0, < 5)
@@ -124,9 +128,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  annotate
   bootstrap-sass (~> 3.2.0)
   coderay
   coffee-rails (~> 4.0.0)
+  hirb
   jbuilder (~> 2.0)
   jquery-rails
   minitest
