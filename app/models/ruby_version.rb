@@ -10,6 +10,7 @@
 #
 
 class RubyVersion < ActiveRecord::Base
+  has_many :results
 
   attr_writer :full_name
 

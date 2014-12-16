@@ -42,6 +42,9 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.1)
+    dotenv (1.0.2)
+    dotenv-rails (1.0.2)
+      dotenv (= 1.0.2)
     erubis (2.7.0)
     execjs (2.2.1)
     hike (1.2.3)
@@ -132,6 +135,7 @@ DEPENDENCIES
   bootstrap-sass (~> 3.2.0)
   coderay
   coffee-rails (~> 4.0.0)
+  dotenv-rails
   hirb
   jbuilder (~> 2.0)
   jquery-rails
