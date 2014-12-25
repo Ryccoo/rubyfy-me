@@ -11,15 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141214125402) do
+ActiveRecord::Schema.define(version: 20141225124401) do
 
   create_table "results", force: true do |t|
     t.integer  "ruby_version_id"
     t.integer  "ruby_benchmark_id"
     t.datetime "run_at"
-    t.decimal  "time",              precision: 10, scale: 0
+    t.decimal  "time",              precision: 14, scale: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "gcc"
   end
 
   add_index "results", ["ruby_benchmark_id"], name: "index_results_on_ruby_benchmark_id", using: :btree
@@ -35,6 +36,7 @@ ActiveRecord::Schema.define(version: 20141214125402) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "benchmark_collection"
+    t.string   "executable"
   end
 
   create_table "ruby_versions", force: true do |t|

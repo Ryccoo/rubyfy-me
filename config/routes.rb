@@ -17,7 +17,9 @@ Rails.application.routes.draw do
       resources :ruby_versions, only: [:index, :show] do
         get 'results', on: :member
       end
-      resources :results, only: [:index, :show]
+      resources :results, only: [:index, :show] do
+        post '', on: :collection, to: 'results#create', as: 'create_api_result'
+      end
     end
   end
 end

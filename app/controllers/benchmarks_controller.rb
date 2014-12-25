@@ -1,4 +1,5 @@
 require 'result_graph'
+require 'coderay'
 
 class BenchmarksController < ApplicationController
 
@@ -14,7 +15,7 @@ class BenchmarksController < ApplicationController
 
     @benchmark = RubyBenchmark.includes(:results, :ruby_versions).find_by_name(params[:id])
 
-    @results = ResultGraph.new(@benchmark).average_for_version
+    @results = ResultGraph.new(@benchmark).average_for_gcc_n_version
 
   end
 end

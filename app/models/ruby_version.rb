@@ -10,7 +10,7 @@
 #
 
 class RubyVersion < ActiveRecord::Base
-  has_many :results
+  has_many :results, dependent: :destroy
 
   attr_writer :full_name
 
