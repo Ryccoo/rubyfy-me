@@ -14,8 +14,9 @@
 </div>
 <br>
 <hr>
-<%= javascript_tag 'new window.benchmark_selector()' %>
 <%= render partial: 'benchmark_average' %>
+<%= render partial: 'benchmark_memory_average' %>
+
 <div class="row">
   <div class="col-xs-10 col-xs-offset-1 text-center">
     <h2 class="ruby">Source</h2>
@@ -29,3 +30,4 @@
   </div>
 </div>
 <br>
+<%= javascript_tag 'new window.benchmark_selector()' %>

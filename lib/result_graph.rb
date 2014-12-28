@@ -25,13 +25,18 @@ class ResultGraph
         sum: 0,
         count: 0,
         average: 0,
-        implementation: r.ruby_version.implementation
+        implementation: r.ruby_version.implementation,
+        memory_sum: 0
       }
       averages[r.ruby_version.display_name][:sum] += r.time
+      averages[r.ruby_version.display_name][:memory_sum] += r.memory
       averages[r.ruby_version.display_name][:count] += +1
     end
 
-    averages.map {|k,v| averages[k][:average] = v[:sum] / v[:count].to_f }
+    averages.map do |k,v|
+      averages[k][:average] = v[:sum] / v[:count].to_f
+      averages[k][:memory_average] = v[:memory_sum] / v[:count].to_f
+    end
     averages
   end
 

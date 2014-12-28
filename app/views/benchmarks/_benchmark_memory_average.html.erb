@@ -1,19 +1,19 @@
 
 <div class="row">
   <div class="col-xs-12">
-    <div id="time_chart"></div>
+    <div id="memory_chart"></div>
   </div>
 </div>
 <br>
 <hr>
 <script>
   $(function () {
-    $('#time_chart').highcharts({
+    $('#memory_chart').highcharts({
       chart: {
         type: 'column'
       },
       title: {
-        text: '<%= @benchmark.name.capitalize %> time results'
+        text: '<%= @benchmark.name.capitalize %> memory results'
       },
       xAxis: {
         type: 'category',
@@ -24,7 +24,7 @@
       yAxis: {
 //        type: 'logarithmic',
         title: {
-          text: 'Time (second)'
+          text: 'Memory (MB)'
         },
 //        min: 0
       },
@@ -37,7 +37,7 @@
         }
       },
       tooltip: {
-        pointFormat: '<b>{point.y:,.4f}</b> sec'
+        pointFormat: '<b>{point.y:,.4f}</b> MB'
       },
       series: [
         <% @results.keys.sort.each do |gcc_version| %>
@@ -54,7 +54,7 @@
             <% data = results[version] %>
             {
               name: '<%= version %>',
-              y: <%= data[:average] %>,
+              y: <%= data[:memory_average] %>,
 //              color: Highcharts.getOptions().colors[<%= RubyVersion::IMPLEMENTATIONS.values.index data[:implementation] %>]
             },
             <% end %>

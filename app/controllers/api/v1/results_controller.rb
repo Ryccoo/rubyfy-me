@@ -31,7 +31,12 @@ class Api::V1::ResultsController < Api::V1::ApiController
       end
 
 
-      result = Result.new(time: params[:time], run_at: Time.parse(params[:run_at]), gcc: params[:gcc_version])
+      result = Result.new(
+        time: params[:time].to_d.round(4),
+        run_at: Time.parse(params[:run_at]),
+        gcc: params[:gcc_version],
+        memory: params[:memory].to_d.round(4)
+      )
       result.ruby_version = rv
       result.ruby_benchmark = rb
 
