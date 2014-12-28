@@ -5,14 +5,23 @@
 <div class="row">
   <div class="col-md-4 col-xs-12 col-md-push-8">
     <h2>Overall CPU time results (all benchmarks)</h2>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elementum turpis eu rutrum tincidunt. Praesent dui justo, consequat eget feugiat in, fermentum quis metus. Aliquam sodales metus justo. Phasellus bibendum dolor sit amet elit pulvinar condimentum. Cras imperdiet vestibulum elit id semper. Ut tortor diam, tincidunt ac sem vel, tristique ornare odio. Suspendisse potenti.
+    <strong class="ruby">(Lower score means better performance)</strong>
+    <br><br>
+    <p>
+      <strong>How the points system works: </strong>For each benchmark we add points to each ruby version.
+      Depending on how good it performs, it get less points. That means the ruby version which consumed the least
+      CPU time gets 1 point, next gets 2 points, and so on.
+    </p>
+    <p>
+      <strong>All benchmarks: </strong>This means that rubies are rated even if they dont complete the benchmark. (Note:
+      Some benchmarks are NOT backwards compatible, it means older rubies cannot perform it.) In that situation version
+      is rated as last one (if there are more they are at the same last place).
+    </p>
   </div>
   <div class="col-md-8 col-xs-12 col-md-pull-4">
     <%= render partial: 'benchmarks/overall_score', locals: {
       chart_name: 'Overall CPU time results (all benchmarks)',
-      chart_unit: 'sec',
       results: @results[:time_all],
-      chart_y_axis: 'Time (sec)'
     } %>
   </div>
 </div>
@@ -21,8 +30,18 @@
 
 <div class="row">
   <div class="col-md-4 col-xs-12">
-    <h2>Overall CPU time results (all benchmarks)</h2>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elementum turpis eu rutrum tincidunt. Praesent dui justo, consequat eget feugiat in, fermentum quis metus. Aliquam sodales metus justo. Phasellus bibendum dolor sit amet elit pulvinar condimentum. Cras imperdiet vestibulum elit id semper. Ut tortor diam, tincidunt ac sem vel, tristique ornare odio. Suspendisse potenti.
+    <h2>Overall CPU time results (completed benchmarks)</h2>
+    <strong class="ruby">(Lower score means better performance)</strong>
+    <br><br>
+    <p>
+      <strong>How the points system works: </strong>For each benchmark we add points to each ruby version.
+      Depending on how good it performs, it get less points. That means the ruby version which consumed the least
+      CPU time gets 1 point, next gets 2 points, and so on.
+    </p>
+    <p>
+      <strong>Completed benchmarks: </strong>Only benchmarks which were completed successfully by all ruby versions are
+      used in pointing system.
+    </p>
   </div>
   <div class="col-md-8 col-xs-12">
     <%= render partial: 'benchmarks/overall_score', locals: {
@@ -38,15 +57,24 @@
 
 <div class="row">
   <div class="col-md-4 col-xs-12 col-md-push-8">
-    <h2>Overall CPU time results (all benchmarks)</h2>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elementum turpis eu rutrum tincidunt. Praesent dui justo, consequat eget feugiat in, fermentum quis metus. Aliquam sodales metus justo. Phasellus bibendum dolor sit amet elit pulvinar condimentum. Cras imperdiet vestibulum elit id semper. Ut tortor diam, tincidunt ac sem vel, tristique ornare odio. Suspendisse potenti.
+    <h2>Overall memory usage results (all benchmarks)</h2>
+    <strong class="ruby">(Lower score means better performance)</strong>
+    <br><br>
+    <p>
+      <strong>How the points system works: </strong>For each benchmark we add points to each ruby version.
+      Depending on how good it performs, it get less points. That means the ruby version with the least
+      memory usage gets 1 point, next gets 2 points, and so on.
+    </p>
+    <p>
+      <strong>All benchmarks: </strong>This means that rubies are rated even if they dont complete the benchmark. (Note:
+      Some benchmarks are NOT backwards compatible, it means older rubies cannot perform it.) In that situation version
+      is rated as last one (if there are more they are at the same last place).
+    </p>
   </div>
   <div class="col-md-8 col-xs-12 col-md-pull-4">
     <%= render partial: 'benchmarks/overall_score', locals: {
       chart_name: 'Overall memory results (all benchmarks)',
-      chart_unit: 'sec',
       results: @results[:memory_all],
-      chart_y_axis: 'Time (sec)'
     } %>
   </div>
 </div>
@@ -55,15 +83,23 @@
 
 <div class="row">
   <div class="col-md-4 col-xs-12">
-    <h2>Overall CPU time results (all benchmarks)</h2>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elementum turpis eu rutrum tincidunt. Praesent dui justo, consequat eget feugiat in, fermentum quis metus. Aliquam sodales metus justo. Phasellus bibendum dolor sit amet elit pulvinar condimentum. Cras imperdiet vestibulum elit id semper. Ut tortor diam, tincidunt ac sem vel, tristique ornare odio. Suspendisse potenti.
+    <h2>Overall memory usage results (completed benchmarks)</h2>
+    <strong class="ruby">(Lower score means better performance)</strong>
+    <br><br>
+    <p>
+      <strong>How the points system works: </strong>For each benchmark we add points to each ruby version.
+      Depending on how good it performs, it get less points. That means the ruby version with the least
+      memory usage gets 1 point, next gets 2 points, and so on.
+    </p>
+    <p>
+      <strong>Completed benchmarks: </strong>Only benchmarks which were completed successfully by all ruby versions are
+      used in pointing system.
+    </p>
   </div>
   <div class="col-md-8 col-xs-12">
     <%= render partial: 'benchmarks/overall_score', locals: {
       chart_name: 'Overall memory results (completed benchmarks)',
-      chart_unit: 'sec',
       results: @results[:memory_available],
-      chart_y_axis: 'Time (sec)'
     } %>
   </div>
 </div>

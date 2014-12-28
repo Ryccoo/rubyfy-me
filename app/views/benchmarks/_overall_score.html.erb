@@ -20,7 +20,7 @@
       yAxis: {
 //        type: 'logarithmic',
         title: {
-          text: '<%= chart_y_axis %>'
+          text: 'Points'
         },
 //        min: 0
       },
@@ -33,7 +33,7 @@
         }
       },
       tooltip: {
-        pointFormat: '<b>{point.y:,.4f}</b> <%= chart_unit %>'
+        pointFormat: '<b>{point.y:,.0f}</b> points'
       },
       series: [
         {

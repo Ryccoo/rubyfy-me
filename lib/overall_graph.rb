@@ -54,6 +54,11 @@ class OverallGraph
 
       found = []
       points = 1
+
+      if skip_missing_results && times.keys.count != @versions.count
+        next
+      end
+
       times.values.sort.each do |v|
         version = times.key(v)
         found << version
@@ -63,10 +68,8 @@ class OverallGraph
         times.delete(version)
       end
 
-      unless skip_missing_results
-        (@versions - found).each do |v|
-          @points[name][v] += points
-        end
+      (@versions - found).each do |v|
+        @points[name][v] += points
       end
 
     end
