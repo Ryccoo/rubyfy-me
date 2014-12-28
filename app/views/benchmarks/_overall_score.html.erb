@@ -1,23 +1,26 @@
-<div id="memory_chart_<%= benchmark.name.parameterize %>"></div>
+<div id="memory_chart_<%= chart_name.parameterize %>"></div>
 <script>
   $(function () {
-    $('#memory_chart_<%= benchmark.name.parameterize %>').highcharts({
+    $('#memory_chart_<%= chart_name.parameterize %>').highcharts({
       chart: {
         type: 'column'
       },
       title: {
-        text: '<%= benchmark.name %> memory results'
+        text: '<%= chart_name %>'
       },
       xAxis: {
         type: 'category',
         title: {
           text: 'Versions'
+        },
+        labels: {
+          rotation: -45
         }
       },
       yAxis: {
 //        type: 'logarithmic',
         title: {
-          text: 'Memory (MB)'
+          text: '<%= chart_y_axis %>'
         },
 //        min: 0
       },
@@ -30,30 +33,27 @@
         }
       },
       tooltip: {
-        pointFormat: '<b>{point.y:,.4f}</b> MB'
+        pointFormat: '<b>{point.y:,.4f}</b> <%= chart_unit %>'
       },
       series: [
-        <% results.keys.sort.each do |gcc_version| %>
-        <% r = results[gcc_version] %>
         {
 //          upColor: Highcharts.getOptions().colors[1],
 //          color: Highcharts.getOptions().colors[2],
-          name: '<%= gcc_version %>',
+          name: '<%= chart_name %>',
+          showInLegend: false,
           // Define the data points. All series have a dummy year
           // of 1970/71 in order to be compared on the same x axis. Note
           // that in JavaScript, months start at 0 for January, 1 for February etc.
           data: [
-            <% r.keys.sort.each do |version| %>
-            <% data = r[version] %>
+            <% results.sort_by {|_key, value| value}.each do |x,y| %>
             {
-              name: '<%= version %>',
-              y: <%= data[:memory_average] %>,
-//              color: Highcharts.getOptions().colors[<%= RubyVersion::IMPLEMENTATIONS.values.index data[:implementation] %>]
+              name: '<%= x %>',
+              y: <%= y %>,
+              color: Highcharts.getOptions().colors[<%= x.include?('GCC 4.9') ? 1 : 0 %>]
             },
             <% end %>
           ]
         },
-        <% end %>
       ],
     });
   });

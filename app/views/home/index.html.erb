@@ -1,3 +1,69 @@
 <%= content_for :title do %>
   RubyBench - Home
 <% end %>
+
+<div class="row">
+  <div class="col-md-4 col-xs-12 col-md-push-8">
+    <h2>Overall CPU time results (all benchmarks)</h2>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elementum turpis eu rutrum tincidunt. Praesent dui justo, consequat eget feugiat in, fermentum quis metus. Aliquam sodales metus justo. Phasellus bibendum dolor sit amet elit pulvinar condimentum. Cras imperdiet vestibulum elit id semper. Ut tortor diam, tincidunt ac sem vel, tristique ornare odio. Suspendisse potenti.
+  </div>
+  <div class="col-md-8 col-xs-12 col-md-pull-4">
+    <%= render partial: 'benchmarks/overall_score', locals: {
+      chart_name: 'Overall CPU time results (all benchmarks)',
+      chart_unit: 'sec',
+      results: @results[:time_all],
+      chart_y_axis: 'Time (sec)'
+    } %>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-md-4 col-xs-12">
+    <h2>Overall CPU time results (all benchmarks)</h2>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elementum turpis eu rutrum tincidunt. Praesent dui justo, consequat eget feugiat in, fermentum quis metus. Aliquam sodales metus justo. Phasellus bibendum dolor sit amet elit pulvinar condimentum. Cras imperdiet vestibulum elit id semper. Ut tortor diam, tincidunt ac sem vel, tristique ornare odio. Suspendisse potenti.
+  </div>
+  <div class="col-md-8 col-xs-12">
+    <%= render partial: 'benchmarks/overall_score', locals: {
+      chart_name: 'Overall CPU time results (completed benchmarks)',
+      chart_unit: 'sec',
+      results: @results[:time_available],
+      chart_y_axis: 'Time (sec)'
+    } %>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-md-4 col-xs-12 col-md-push-8">
+    <h2>Overall CPU time results (all benchmarks)</h2>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elementum turpis eu rutrum tincidunt. Praesent dui justo, consequat eget feugiat in, fermentum quis metus. Aliquam sodales metus justo. Phasellus bibendum dolor sit amet elit pulvinar condimentum. Cras imperdiet vestibulum elit id semper. Ut tortor diam, tincidunt ac sem vel, tristique ornare odio. Suspendisse potenti.
+  </div>
+  <div class="col-md-8 col-xs-12 col-md-pull-4">
+    <%= render partial: 'benchmarks/overall_score', locals: {
+      chart_name: 'Overall memory results (all benchmarks)',
+      chart_unit: 'sec',
+      results: @results[:memory_all],
+      chart_y_axis: 'Time (sec)'
+    } %>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-md-4 col-xs-12">
+    <h2>Overall CPU time results (all benchmarks)</h2>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elementum turpis eu rutrum tincidunt. Praesent dui justo, consequat eget feugiat in, fermentum quis metus. Aliquam sodales metus justo. Phasellus bibendum dolor sit amet elit pulvinar condimentum. Cras imperdiet vestibulum elit id semper. Ut tortor diam, tincidunt ac sem vel, tristique ornare odio. Suspendisse potenti.
+  </div>
+  <div class="col-md-8 col-xs-12">
+    <%= render partial: 'benchmarks/overall_score', locals: {
+      chart_name: 'Overall memory results (completed benchmarks)',
+      chart_unit: 'sec',
+      results: @results[:memory_available],
+      chart_y_axis: 'Time (sec)'
+    } %>
+  </div>
+</div>

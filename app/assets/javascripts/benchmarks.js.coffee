@@ -7,3 +7,10 @@ class window.benchmark_selector
     $('select#ruby_benchmark').on 'change', ->
       page = $('select#ruby_benchmark').val()
       window.location = "/benchmarks/#{page}"
+
+class window.source_toggle
+  constructor: ->
+    $("button[data-toggle-btn='true']").on 'click ->', ->
+      el = $(this)
+      target = el.attr('data-toggle-elem')
+      $("div.CodeRay[data-toggle-name='#{target}']").toggle()

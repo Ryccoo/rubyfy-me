@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   get 'home/index'
 
-  resources :benchmarks, only: [:index, :show]
+  resources :benchmarks, only: [:index, :show] do
+    get 'select', on: :collection
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

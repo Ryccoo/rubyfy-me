@@ -1,0 +1,31 @@
+<%= content_for :title do %>
+  RubyBench - Multiple benchmarks
+<% end %>
+
+<%= form_tag select_benchmarks_path, method: :get do %>
+  <% @grouped_benchmarks.each do |group, benchmarks| %>
+    <div class="row">
+      <div class="col-xs-12">
+        <h2><%= group.capitalize %></h2>
+        <% benchmarks.each do |benchmark| %>
+          <%= label_tag '', class: 'custom_label' do %>
+            <%= check_box_tag 'b[]', benchmark.id, (@selected.include?(benchmark.id.to_s)) %> <%= benchmark.name %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  <br>
+  <div class="row">
+    <div class="col-xs-12">
+      <%= submit_tag 'Submit', class: 'btn btn-success col-xs-12' %>
+    </div>
+  </div>
+<% end %>
+<hr>
+
+<% @benchmarks.each do |benchmark, results| %>
+  <%= render partial: 'benchmark', locals: { benchmark: benchmark, results: results, source_hidden: true } %>
+<% end %>
+
+<%= javascript_tag 'new window.source_toggle()' %>

@@ -1,19 +1,12 @@
-
-<div class="row">
-  <div class="col-xs-12">
-    <div id="time_chart"></div>
-  </div>
-</div>
-<br>
-<hr>
+<div id="time_chart_<%= benchmark.name.parameterize %>"></div>
 <script>
   $(function () {
-    $('#time_chart').highcharts({
+    $('#time_chart_<%= benchmark.name.parameterize %>').highcharts({
       chart: {
         type: 'column'
       },
       title: {
-        text: '<%= @benchmark.name.capitalize %> time results'
+        text: '<%= benchmark.name%> time results'
       },
       xAxis: {
         type: 'category',
@@ -40,8 +33,8 @@
         pointFormat: '<b>{point.y:,.4f}</b> sec'
       },
       series: [
-        <% @results.keys.sort.each do |gcc_version| %>
-        <% results = @results[gcc_version] %>
+        <% results.keys.sort.each do |gcc_version| %>
+        <% r = results[gcc_version] %>
         {
 //          upColor: Highcharts.getOptions().colors[1],
 //          color: Highcharts.getOptions().colors[2],
@@ -50,8 +43,8 @@
           // of 1970/71 in order to be compared on the same x axis. Note
           // that in JavaScript, months start at 0 for January, 1 for February etc.
           data: [
-            <% results.keys.sort.each do |version| %>
-            <% data = results[version] %>
+            <% r.keys.sort.each do |version| %>
+            <% data = r[version] %>
             {
               name: '<%= version %>',
               y: <%= data[:average] %>,

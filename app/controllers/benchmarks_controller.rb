@@ -18,4 +18,22 @@ class BenchmarksController < ApplicationController
     @results = ResultGraph.new(@benchmark).average_for_gcc_n_version
 
   end
+
+  def select
+    @selected = params[:b] || []
+
+    @grouped_benchmarks = RubyBenchmark.all.order(:name).inject({}) do |hsh, bench|
+      (hsh[bench.benchmark_collection] ||= []) << bench
+      hsh
+    end
+
+    benchmarks = RubyBenchmark.includes(:results, :ruby_versions).where(id: @selected)
+
+    @benchmarks = benchmarks.inject({}) do |hsh, bench|
+      hsh[bench] = ResultGraph.new(bench).average_for_gcc_n_version
+      hsh
+    end
+
+  end
+
 end

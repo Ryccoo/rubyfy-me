@@ -8,26 +8,17 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-xs-12">
+  <div class="col-xs-9">
     <%= select_tag(:ruby_benchmark, grouped_options_for_select(@grouped_benchmarks, @benchmark.name), allow_blank: false, class: 'form-control') %>
+  </div>
+  <div class="col-xs-3">
+    <%= link_to 'Select multiple', select_benchmarks_path, class: 'btn btn-primary col-xs-12' %>
   </div>
 </div>
 <br>
 <hr>
-<%= render partial: 'benchmark_average' %>
-<%= render partial: 'benchmark_memory_average' %>
 
-<div class="row">
-  <div class="col-xs-10 col-xs-offset-1 text-center">
-    <h2 class="ruby">Source</h2>
-    <div class="custom-well CodeRay text-left">
-      <pre><%= CodeRay.scan(@benchmark.source, :ruby).html(
-                 :wrap => nil,
-                 :line_numbers => :inline
-               ).html_safe %>
-      </pre>
-    </div>
-  </div>
-</div>
-<br>
+<%= render partial: 'benchmark', locals: { benchmark: @benchmark, results: @results, source_hidden: false, title_hidden: true } %>
+
 <%= javascript_tag 'new window.benchmark_selector()' %>
+<%= javascript_tag 'new window.source_toggle()' %>
