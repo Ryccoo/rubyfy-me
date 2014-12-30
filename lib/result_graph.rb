@@ -15,6 +15,14 @@ class ResultGraph
       gcc[k] = average_for_version(v)
     end
 
+    gcc.each do |gcc_version, ruby_versions|
+      ruby_versions.keys.each do |ruby_version|
+        gcc.each do |ogv, orv|
+          gcc[gcc_version].delete(ruby_version) unless gcc[ogv].keys.include? ruby_version
+        end
+      end
+    end
+
     gcc
   end
 
