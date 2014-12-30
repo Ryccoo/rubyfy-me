@@ -7,6 +7,7 @@
   <%= csrf_meta_tags %>
   <%= analytics_init if Rails.env.production? %>
   <meta name="description" content="RubyBench open source project is focused on benchmarking MRI ruby versions from 1.8.6." />
+  <meta name="keywords" content="Ruby, MRI, version, benchmark, benchmarking, <%= yield :keywords %>">
   <link rel="author" href="https://github.com/Ryccoo" />
   <meta property="og:title" content="RubyBench - MRI benchmark world" />
   <meta property="og:description" content="RubyBench open source project is focused on benchmarking MRI ruby versions from 1.8.6." />
