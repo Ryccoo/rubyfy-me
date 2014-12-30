@@ -19,6 +19,20 @@
 <br>
 <hr>
 
+<div class="modal fade" id="runs_modal" tabindex="-1" role="dialog" aria-labelledby="runs_modal_label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" style="min-height: 400px;">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-xs-12">
+            <div id="runs_chart"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <%= render partial: 'benchmark', locals: { benchmark: @benchmark, results: @results, source_hidden: false, title_hidden: true } %>
 
 <%= javascript_tag 'new window.benchmark_selector()' %>

@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resources :benchmarks, only: [:index, :show] do
     get 'select', on: :collection
+    get 'runs', on: :member
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

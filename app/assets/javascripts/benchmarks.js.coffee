@@ -13,4 +13,5 @@ class window.source_toggle
     $("button[data-toggle-btn='true']").on 'click ->', ->
       el = $(this)
       target = el.attr('data-toggle-elem')
-      $("div.CodeRay[data-toggle-name='#{target}']").toggle()
+      remote = $("div[data-toggle-name='#{target}']")
+      remote.toggle()

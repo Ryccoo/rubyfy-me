@@ -18,6 +18,7 @@ class ResultGraph
     gcc.each do |gcc_version, ruby_versions|
       ruby_versions.keys.each do |ruby_version|
         gcc.each do |ogv, orv|
+          # delete versions not present in all compilations
           gcc[gcc_version].delete(ruby_version) unless gcc[ogv].keys.include? ruby_version
         end
       end
@@ -34,11 +35,16 @@ class ResultGraph
         count: 0,
         average: 0,
         implementation: r.ruby_version.implementation,
-        memory_sum: 0
+        memory_sum: 0,
+        runs: []
       }
       averages[r.ruby_version.display_name][:sum] += r.time
       averages[r.ruby_version.display_name][:memory_sum] += r.memory
       averages[r.ruby_version.display_name][:count] += +1
+      averages[r.ruby_version.display_name][:runs] << {
+        time: r.time,
+        memory: r.memory
+      }
     end
 
     averages.map do |k,v|

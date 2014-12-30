@@ -1,0 +1,83 @@
+$("#runs_modal").modal();
+<%
+   data = {}
+   @results.each do |gcc_version, ruby_versions|
+     ruby_versions.each do |ruby_version, res|
+       data["#{ruby_version} #{gcc_version}"] = res[:runs]
+     end
+   end
+%>
+
+function display_runs() {
+  $('#runs_chart').highcharts({
+    chart: {
+      type: 'scatter',
+      zoomType: 'xy',
+    },
+    title: {
+      text: '<%= @benchmark.name %> benchmark run comparison'
+    },
+    xAxis: {
+//        type: 'category',
+      title: {
+        text: 'Time (second)'
+      }
+    },
+    yAxis: {
+//        type: 'logarithmic',
+      title: {
+        text: 'Memory (MB)'
+      },
+//        min: 0
+    },
+    legend: {
+      layout: 'horizontal',
+//        floating: true,
+    },
+    plotOptions: {
+      scatter: {
+        marker: {
+          radius: 5,
+          states: {
+            hover: {
+              enabled: true,
+              lineColor: 'rgb(100,100,100)'
+            }
+          }
+        },
+        states: {
+          hover: {
+            marker: {
+              enabled: false
+            }
+          }
+        },
+        tooltip: {
+          headerFormat: '<b>{series.name}</b><br>',
+          pointFormat: '{point.x} sec, {point.y} MB'
+        }
+      }
+    },
+    series: [
+      <% data.keys.sort.each do |version| %>
+      <% r = data[version] %>
+      {
+//          upColor: Highcharts.getOptions().colors[1],
+//          color: Highcharts.getOptions().colors[2],
+        name: '<%= version %>',
+        visible: false,
+        // Define the data points. All series have a dummy year
+        // of 1970/71 in order to be compared on the same x axis. Note
+        // that in JavaScript, months start at 0 for January, 1 for February etc.
+        data: [
+          <% r.each do |run| %>
+          [<%= run[:time] %>, <%= run[:memory] %>],
+          <% end %>
+        ]
+      },
+      <% end %>
+    ],
+  });
+};
+
+window.setTimeout(display_runs, 750);

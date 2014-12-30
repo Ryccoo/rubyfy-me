@@ -36,4 +36,14 @@ class BenchmarksController < ApplicationController
 
   end
 
+  def runs
+    @benchmark = RubyBenchmark.includes(:results, :ruby_versions).find_by_name(params[:id])
+
+    @results = ResultGraph.new(@benchmark).average_for_gcc_n_version
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
 end

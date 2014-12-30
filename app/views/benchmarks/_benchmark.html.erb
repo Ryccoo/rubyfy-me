@@ -17,6 +17,13 @@
   </div>
 </div>
 
+<br>
+<div class="row">
+  <div class="col-xs-12 text-center">
+    <%= link_to 'Display results of each run', runs_benchmark_path(benchmark), class: 'text-center btn btn-primary', remote: true %>
+  </div>
+</div>
+
 <div class="row">
   <div class="col-xs-10 col-xs-offset-1 text-center">
     <h2 class="ruby">Source <button class="btn btn-primary btn-sm" data-toggle-btn="true" data-toggle-elem="<%= benchmark.name %>">hide / show</button></h2>
