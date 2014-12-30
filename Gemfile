@@ -21,6 +21,7 @@ gem 'coderay'
 gem 'dotenv-rails'
 gem 'google-analytics-rails'
 gem 'newrelic_rpm'
+gem 'apipie-rails'
 
 group :development do
   gem 'pry'

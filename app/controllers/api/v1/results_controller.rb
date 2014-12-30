@@ -2,10 +2,13 @@ class Api::V1::ResultsController < Api::V1::ApiController
   before_filter :validate_secret, only: [:create, :delete, :delete_all]
   protect_from_forgery :except => :create
 
+  api :GET, '/results', 'List all results'
   def index
     @results = Result.all
   end
 
+  api :GET, '/results/:id', 'Show result'
+  param :id, :number, :required => true, desc: 'ID of result'
   def show
     @result = Result.find(params[:id])
   end

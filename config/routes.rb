@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  apipie
   get 'home/index'
 
   resources :benchmarks, only: [:index, :show] do
