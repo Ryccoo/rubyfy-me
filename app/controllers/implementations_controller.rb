@@ -1,11 +1,10 @@
 require 'result_graph'
 require 'coderay'
 
-
-class MriController < ApplicationController
+class ImplementationsController < ApplicationController
 
   def index
-    redirect_to mri_path(RubyBenchmark.first)
+    redirect_to implementation_path(RubyBenchmark.first)
   end
 
   def show
@@ -33,6 +32,7 @@ class MriController < ApplicationController
       hsh[bench] = ResultGraph.new(bench).average_for_version(query_for(bench))
       hsh
     end
+
   end
 
   def runs
@@ -47,8 +47,12 @@ class MriController < ApplicationController
 
   private
   def query_for(benchmark)
-    query = benchmark.results.includes(:ruby_version).where(ruby_versions: {implementation: 'MRI'}, gcc: 'GCC 4.8 -O3') +
-      benchmark.results.includes(:ruby_version).where(ruby_versions: {implementation: 'MRI', name: '1.8.6' }, gcc: 'GCC 4.8 -O2')
+    mri_shown = RubyVersion.where(implementation: 'MRI').order('name DESC').first(5)
+
+    query = benchmark.results.includes(:ruby_version)
+    .where(ruby_versions: {implementation: ['Jruby', 'Rubinius']}) +
+      benchmark.results.includes(:ruby_version)
+      .where(ruby_version_id: mri_shown, gcc: 'GCC 4.8 -O3')
 
     query
   end

@@ -1,11 +1,10 @@
 require 'result_graph'
 require 'coderay'
 
-
-class MriController < ApplicationController
+class CompilersController < ApplicationController
 
   def index
-    redirect_to mri_path(RubyBenchmark.first)
+    redirect_to compiler_path(RubyBenchmark.first)
   end
 
   def show
@@ -16,7 +15,8 @@ class MriController < ApplicationController
 
     @benchmark = RubyBenchmark.includes(:results, :ruby_versions).find_by_name(params[:id])
 
-    @results = ResultGraph.new(@benchmark).average_for_version(query_for(@benchmark))
+    @results = ResultGraph.new(@benchmark).average_for_version(query_for(@benchmark), with_compiler_separation: true)
+    binding.pry
   end
 
   def select
@@ -30,15 +30,17 @@ class MriController < ApplicationController
     benchmarks = RubyBenchmark.includes(:results, :ruby_versions).where(id: @selected)
 
     @benchmarks = benchmarks.inject({}) do |hsh, bench|
-      hsh[bench] = ResultGraph.new(bench).average_for_version(query_for(bench))
+      hsh[bench] = ResultGraph.new(bench).average_for_version(query_for(bench), with_compiler_separation: true)
+
       hsh
     end
+
   end
 
   def runs
     @benchmark = RubyBenchmark.includes(:results, :ruby_versions).find_by_name(params[:id])
 
-    @results = ResultGraph.new(@benchmark).average_for_version(query_for(@benchmark))
+    @results = ResultGraph.new(@benchmark).average_for_version(query_for(@benchmark), with_compiler_separation: true)
 
     respond_to do |format|
       format.js { render 'benchmarks/runs' }
@@ -47,8 +49,12 @@ class MriController < ApplicationController
 
   private
   def query_for(benchmark)
-    query = benchmark.results.includes(:ruby_version).where(ruby_versions: {implementation: 'MRI'}, gcc: 'GCC 4.8 -O3') +
-      benchmark.results.includes(:ruby_version).where(ruby_versions: {implementation: 'MRI', name: '1.8.6' }, gcc: 'GCC 4.8 -O2')
+    mri_shown = RubyVersion.includes(:results).where(implementation: 'MRI')
+      .select { |version| version.results.map(&:gcc).uniq.count > 1 }
+
+
+    query = benchmark.results.includes(:ruby_version)
+        .where(ruby_version_id: mri_shown)
 
     query
   end
