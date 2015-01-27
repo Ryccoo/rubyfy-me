@@ -1,0 +1,2 @@
+module MriHelper
+end

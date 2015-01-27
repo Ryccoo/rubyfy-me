@@ -1,8 +1,8 @@
 <%= content_for :title do %>
-  RubyBench - Multiple benchmarks
+  RubyBench - Multiple MRI benchmarks
 <% end %>
 
-<%= form_tag select_benchmarks_path, method: :get do %>
+<%= form_tag select_mri_index_path, method: :get do %>
   <% @grouped_benchmarks.each do |group, benchmarks| %>
     <div class="row">
       <div class="col-xs-12">
@@ -25,21 +25,9 @@
 <hr>
 
 <% @benchmarks.each do |benchmark, results| %>
-  <%= render partial: 'benchmark', locals: { benchmark: benchmark, results: results, source_hidden: true } %>
+  <%= render partial: 'benchmarks/benchmark',
+             locals: { benchmark: benchmark, results: results, source_hidden: true, title_hidden: false,
+                       runs_path: runs_mri_path(benchmark), section_bench_path: mri_path(benchmark) } %>
 <% end %>
-
-<div class="modal fade" id="runs_modal" tabindex="-1" role="dialog" aria-labelledby="runs_modal_label" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content" style="min-height: 400px;">
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-xs-12">
-            <div id="runs_chart"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <%= javascript_tag 'new window.source_toggle()' %>

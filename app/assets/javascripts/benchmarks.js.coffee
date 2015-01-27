@@ -6,7 +6,8 @@ class window.benchmark_selector
   constructor: ->
     $('select#ruby_benchmark').on 'change', ->
       page = $('select#ruby_benchmark').val()
-      window.location = "/benchmarks/#{page}"
+      section = $('select#ruby_benchmark').data('section')
+      window.location = "/#{section}/#{page}"
 
 class window.source_toggle
   constructor: ->

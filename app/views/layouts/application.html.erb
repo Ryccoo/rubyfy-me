@@ -41,5 +41,20 @@
   <%= yield %>
 </div>
 
+<div class="modal fade" id="runs_modal" tabindex="-1" role="dialog" aria-labelledby="runs_modal_label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" style="min-height: 400px;">
+      <div class="modal-body">
+        <button type="button" class="close ruby" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="zoom: 1.5;">&times;</span></button>
+        <div class="row">
+          <div class="col-xs-12">
+            <div id="runs_chart"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

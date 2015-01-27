@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   apipie
   get 'home/index'
 
-  resources :benchmarks, only: [:index, :show] do
+  resources :mri, only: [:index, :show] do
     get 'select', on: :collection
     get 'runs', on: :member
   end

@@ -4,28 +4,28 @@
 <% unless title_hidden %>
   <div class="row">
     <div class="col-xs-12 text-center">
-      <h1><%= link_to benchmark.name, benchmark_path(benchmark) %></h1>
+      <h1><%= link_to benchmark.name, section_bench_path %></h1>
     </div>
   </div>
 <% end %>
 <div class="row">
   <div class="col-xs-12">
-    <%= render partial: 'benchmark_average', locals: { benchmark: benchmark, results: results } %>
+    <%= render partial: 'benchmarks/benchmark_average', locals: { benchmark: benchmark, results: results } %>
   </div>
 </div>
 <div class="row">
   <div class="col-md-6 col-xs-12">
-    <%= render partial: 'benchmark_memory_average', locals: { benchmark: benchmark, results: results } %>
+    <%= render partial: 'benchmarks/benchmark_memory_average', locals: { benchmark: benchmark, results: results } %>
   </div>
   <div class="col-md-6 col-xs-12">
-    <%= render partial: 'benchmark_memory_total', locals: { benchmark: benchmark, results: results } %>
+    <%= render partial: 'benchmarks/benchmark_memory_total', locals: { benchmark: benchmark, results: results } %>
   </div>
 </div>
 
 <br>
 <div class="row">
   <div class="col-xs-12 text-center">
-    <%= link_to 'Display results of each run', runs_benchmark_path(benchmark), class: 'text-center btn btn-primary', remote: true %>
+    <%= link_to 'Display results of each run', runs_path, class: 'text-center btn btn-primary', remote: true %>
   </div>
 </div>
 
