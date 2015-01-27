@@ -1,12 +1,12 @@
-<div id="memory_chart_<%= benchmark.name.parameterize %>"></div>
+<div id="memory_total_chart_<%= benchmark.name.parameterize %>"></div>
 <script>
   $(function () {
-    $('#memory_chart_<%= benchmark.name.parameterize %>').highcharts({
+    $('#memory_total_chart_<%= benchmark.name.parameterize %>').highcharts({
       chart: {
         type: 'column'
       },
       title: {
-        text: '<%= benchmark.name %> memory results'
+        text: '<%= benchmark.name %> total memory results'
       },
       xAxis: {
         type: 'category',
@@ -17,7 +17,7 @@
       yAxis: {
 //        type: 'logarithmic',
         title: {
-          text: 'Memory (KB)'
+          text: 'Memory (MB)'
         },
 //        min: 0
       },
@@ -30,7 +30,7 @@
         }
       },
       tooltip: {
-        pointFormat: '<b>{point.y:,.4f}</b> KB'
+        pointFormat: '<b>{point.y:,.4f}</b> MB'
       },
       series: [
         {
@@ -41,7 +41,7 @@
             <% data = results[ruby_version] %>
             {
               name: '<%= ruby_version %>',
-              y: <%= data[:memory_average] %>,
+              y: <%= data[:memory_total_average] %>,
               color: Highcharts.getOptions().colors[<%= RubyVersion::IMPLEMENTATIONS.values.index data[:implementation] %>]
             },
             <% end %>

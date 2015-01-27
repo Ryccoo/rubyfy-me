@@ -4,6 +4,7 @@
   <title><%= yield :title %></title>
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
+  <script src="http://code.highcharts.com/highcharts-3d.js"></script>
   <%= csrf_meta_tags %>
   <%= analytics_init if Rails.env.production? %>
   <meta name="description" content="RubyBench open source project is focused on benchmarking MRI ruby versions from 1.8.6." />

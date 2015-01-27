@@ -33,27 +33,20 @@
         pointFormat: '<b>{point.y:,.4f}</b> sec'
       },
       series: [
-        <% results.keys.sort.each do |gcc_version| %>
-        <% r = results[gcc_version] %>
         {
-//          upColor: Highcharts.getOptions().colors[1],
-//          color: Highcharts.getOptions().colors[2],
-          name: '<%= gcc_version %>',
-          // Define the data points. All series have a dummy year
-          // of 1970/71 in order to be compared on the same x axis. Note
-          // that in JavaScript, months start at 0 for January, 1 for February etc.
+          name: 'Ruby Implementations',
+          showInLegend: false,
           data: [
-            <% r.keys.sort.each do |version| %>
-            <% data = r[version] %>
+            <% results.keys.sort.each do |ruby_version| %>
+            <% data = results[ruby_version] %>
             {
-              name: '<%= version %>',
+              name: '<%= ruby_version %>',
               y: <%= data[:average] %>,
-//              color: Highcharts.getOptions().colors[<%= RubyVersion::IMPLEMENTATIONS.values.index data[:implementation] %>]
+              color: Highcharts.getOptions().colors[<%= RubyVersion::IMPLEMENTATIONS.values.index data[:implementation] %>]
             },
             <% end %>
-          ]
-        },
-        <% end %>
+          ],
+        }
       ],
     });
   });

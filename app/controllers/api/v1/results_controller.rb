@@ -13,6 +13,15 @@ class Api::V1::ResultsController < Api::V1::ApiController
     @result = Result.find(params[:id])
   end
 
+  api :POST, '/results', 'Add results'
+  param :secret_token, String, required: true, desc: 'Secret key to gain publish permissions'
+  param :executable, String, required: true, desc: 'Executable name'
+  param :ruby, String, required: true, desc: 'Ruby version (format like "ruby-2.2.0")'
+  param :time, String, required: true, desc: 'Bench result time'
+  param :memory, String, required: true, desc: 'Bench result memory used'
+  param :total_memory, String, required: true, desc: 'Bench result memory total'
+  param :run_at, String, required: true, desc: 'Date and time of run'
+  param :gcc_version, String, required: true, desc: 'GCC version (or other compiler name) used to compile ruby'
   def create
     ActiveRecord::Base.transaction do
       # example request
@@ -38,7 +47,8 @@ class Api::V1::ResultsController < Api::V1::ApiController
         time: params[:time].to_d.round(4),
         run_at: Time.parse(params[:run_at]),
         gcc: params[:gcc_version],
-        memory: params[:memory].to_d.round(4)
+        memory: params[:memory].to_d.round(4),
+        total_memory: params[:total_memory].to_d.round(4)
       )
       result.ruby_version = rv
       result.ruby_benchmark = rb

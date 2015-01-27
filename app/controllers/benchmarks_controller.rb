@@ -15,7 +15,11 @@ class BenchmarksController < ApplicationController
 
     @benchmark = RubyBenchmark.includes(:results, :ruby_versions).find_by_name(params[:id])
 
-    @results = ResultGraph.new(@benchmark).average_for_gcc_n_version
+    query = @benchmark.results.includes(:ruby_version).where(ruby_versions: {implementation: 'MRI'}, gcc: 'GCC 4.8 -O3') +
+      @benchmark.results.includes(:ruby_version).where(ruby_versions: {implementation: 'MRI', name: '1.8.6' }, gcc: 'GCC 4.8 -O2')
+
+
+    @results = ResultGraph.new(@benchmark).average_for_version(query)
 
   end
 
@@ -30,7 +34,9 @@ class BenchmarksController < ApplicationController
     benchmarks = RubyBenchmark.includes(:results, :ruby_versions).where(id: @selected)
 
     @benchmarks = benchmarks.inject({}) do |hsh, bench|
-      hsh[bench] = ResultGraph.new(bench).average_for_gcc_n_version
+      query = bench.results.includes(:ruby_version).where(ruby_versions: {implementation: 'MRI'}, gcc: 'GCC 4.8 -O3') +
+        bench.results.includes(:ruby_version).where(ruby_versions: {implementation: 'MRI', name: '1.8.6' }, gcc: 'GCC 4.8 -O2')
+      hsh[bench] = ResultGraph.new(bench).average_for_version(query)
       hsh
     end
 
@@ -39,7 +45,10 @@ class BenchmarksController < ApplicationController
   def runs
     @benchmark = RubyBenchmark.includes(:results, :ruby_versions).find_by_name(params[:id])
 
-    @results = ResultGraph.new(@benchmark).average_for_gcc_n_version
+    query = @benchmark.results.includes(:ruby_version).where(ruby_versions: {implementation: 'MRI'}, gcc: 'GCC 4.8 -O3') +
+      @benchmark.results.includes(:ruby_version).where(ruby_versions: {implementation: 'MRI', name: '1.8.6' }, gcc: 'GCC 4.8 -O2')
+
+    @results = ResultGraph.new(@benchmark).average_for_version(query)
 
     respond_to do |format|
       format.js

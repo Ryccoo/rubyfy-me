@@ -1,12 +1,4 @@
 $("#runs_modal").modal();
-<%
-   data = {}
-   @results.each do |gcc_version, ruby_versions|
-     ruby_versions.each do |ruby_version, res|
-       data["#{ruby_version} #{gcc_version}"] = res[:runs]
-     end
-   end
-%>
 
 function display_runs() {
   $('#runs_chart').highcharts({
@@ -26,7 +18,7 @@ function display_runs() {
     yAxis: {
 //        type: 'logarithmic',
       title: {
-        text: 'Memory (MB)'
+        text: 'Memory used (MB)'
       },
 //        min: 0
     },
@@ -59,12 +51,12 @@ function display_runs() {
       }
     },
     series: [
-      <% data.keys.sort.each do |version| %>
-      <% r = data[version] %>
+      <% @results.keys.sort.each do |ruby_version| %>
+      <% r = @results[ruby_version][:runs] %>
       {
 //          upColor: Highcharts.getOptions().colors[1],
 //          color: Highcharts.getOptions().colors[2],
-        name: '<%= version %>',
+        name: '<%= ruby_version %>',
         visible: false,
         // Define the data points. All series have a dummy year
         // of 1970/71 in order to be compared on the same x axis. Note

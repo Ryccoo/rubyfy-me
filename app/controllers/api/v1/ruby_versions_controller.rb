@@ -12,7 +12,7 @@ class Api::V1::RubyVersionsController < Api::V1::ApiController
     @version = RubyVersion.find(params[:id])
   end
 
-  api :GET, '/ruby_versions', 'Show all ruby version results'
+  api :GET, '/ruby_versions/:id/results', 'Show all ruby version results'
   param :id, :number, :required => true, desc: 'ID of ruby version'
   def results
     @results = RubyVersion.includes(:results).find(params[:id]).results
