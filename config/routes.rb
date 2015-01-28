@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   apipie
   get 'home/index'
+  get 'hardware', to: 'home#hardware'
 
   resources :mri, only: [:index, :show] do
     get 'select', on: :collection

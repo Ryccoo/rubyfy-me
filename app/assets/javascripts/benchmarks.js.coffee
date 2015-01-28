@@ -11,8 +11,21 @@ class window.benchmark_selector
 
 class window.source_toggle
   constructor: ->
-    $("button[data-toggle-btn='true']").on 'click ->', ->
+    $("button[data-toggle-btn='true']").on 'click', ->
       el = $(this)
       target = el.attr('data-toggle-elem')
       remote = $("div[data-toggle-name='#{target}']")
       remote.toggle()
+
+
+window.toggle_full_screen = (selector) ->
+  element = $("#{selector}")
+
+  if element.hasClass 'modal-chart'
+    element.removeClass 'modal-chart'
+    element.addClass 'modal-chart-small'
+  else
+    element.removeClass 'modal-chart-small'
+    element.addClass 'modal-chart'
+
+  element.highcharts().reflow()

@@ -3,7 +3,8 @@
   $(function () {
     $('#memory_total_chart_<%= benchmark.name.parameterize %>').highcharts({
       chart: {
-        type: 'column'
+        type: 'column',
+        zoomType: 'x'
       },
       title: {
         text: '<%= benchmark.name %> total memory results'
@@ -19,14 +20,37 @@
         title: {
           text: 'Memory (MB)'
         },
+        plotLines: [{
+          color: '#d9443e',
+          dashStyle: 'ShortDash',
+          width: 1,
+          value: <%= get_average_for_compilers_benchmark(results, :memory_total_average) %>,
+          zIndex: 5,
+          label : {
+            text : 'Average',
+          }}
+        ],
 //        min: 0
       },
       plotOptions: {
-        line: {
+        column: {
+          animation: true,
           dataLabels: {
-            enabled:  true
-          },
-          enableMouseTracking: false
+            enabled: true,
+            formatter: function () {
+              var values = this.series.data.map( function(item) { return item.y });
+              var count = values.length;
+              var sum = values.reduce(function(a, b) { return a + b });
+              var average = sum / count;
+              var percentage = ((this.y - average) / average * 100).toFixed(2);
+              if(percentage > 0) {
+                return "<span style=\"color:#d9443e; z-index: 0\">+" + percentage + "%</span>"
+              } else {
+                return "<span style=\"color:green; z-index: 0\">" + percentage + "%</span>"
+              }
+            },
+            zIndex: 0
+          }
         }
       },
       tooltip: {
@@ -52,6 +76,17 @@
         },
         <% end %>
       ],
+      exporting: {
+        buttons: {
+          customButton: {
+            x: -42,
+            onclick: function () {
+              toggle_full_screen('#memory_total_chart_<%= benchmark.name.parameterize %>');
+            },
+            text: 'Fullscreen'
+          }
+        }
+      },
     });
   });
 </script>

@@ -3,7 +3,8 @@
   $(function () {
     $('#memory_total_chart_<%= benchmark.name.parameterize %>').highcharts({
       chart: {
-        type: 'column'
+        type: 'column',
+        zoomType: 'x'
       },
       title: {
         text: '<%= benchmark.name %> total memory results'
@@ -22,11 +23,26 @@
 //        min: 0
       },
       plotOptions: {
-        line: {
+        column: {
+          animation: false,
           dataLabels: {
-            enabled:  true
-          },
-          enableMouseTracking: false
+            enabled: true,
+            formatter: function () {
+              if (this.y == this.series.dataMax) {
+                return "<span style=\"color:#d9443e; z-index: 0\">Base</span><br>"
+              } else {
+                var label = "";
+
+                if (this.y == this.series.dataMin) {
+                  label = "<span style=\"color:green\">Best</span><br>";
+                }
+
+                var percentage = ((this.y - this.series.dataMax) / this.series.dataMax * 100).toFixed(2);
+                return label + '<span style="color:black">' + percentage + '% </span>';
+              }
+            },
+            zIndex: 0
+          }
         }
       },
       tooltip: {
@@ -48,6 +64,17 @@
           ],
         }
       ],
+      exporting: {
+        buttons: {
+          customButton: {
+            x: -42,
+            onclick: function () {
+              toggle_full_screen('#memory_total_chart_<%= benchmark.name.parameterize %>');
+            },
+            text: 'Fullscreen'
+          }
+        }
+      },
     });
   });
 </script>
