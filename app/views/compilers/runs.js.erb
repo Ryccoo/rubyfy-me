@@ -1,0 +1,75 @@
+$("#runs_modal").modal({
+  backdrop: 'static'
+});
+
+function display_runs() {
+  $('#runs_chart').highcharts({
+    chart: {
+      type: 'scatter',
+      zoomType: 'xy',
+    },
+    title: {
+      text: '<%= @benchmark.name %> benchmark run comparison'
+    },
+    xAxis: {
+//        type: 'category',
+      title: {
+        text: 'Time (second)'
+      }
+    },
+    yAxis: {
+//        type: 'logarithmic',
+      title: {
+        text: 'Memory used (MB)'
+      },
+//        min: 0
+    },
+    legend: {
+      layout: 'horizontal',
+//        floating: true,
+    },
+    plotOptions: {
+      scatter: {
+        marker: {
+          radius: 5,
+          states: {
+            hover: {
+              enabled: true,
+              lineColor: 'rgb(100,100,100)'
+            }
+          }
+        },
+        states: {
+          hover: {
+            marker: {
+              enabled: false
+            }
+          }
+        },
+        tooltip: {
+          headerFormat: '<b>{series.name}</b><br>',
+          pointFormat: '{point.x} sec, {point.y} MB'
+        }
+      }
+    },
+    series: [
+      <% @results.keys.sort.reverse.each do |ruby_version| %>
+        <% compilers = @results[ruby_version] %>
+        <% compilers.keys.sort.each do |compiler| %>
+      {
+        name: '<%= ruby_version %> <%= compiler %>',
+        visible: false,
+        data: [
+          <% r = compilers[compiler][:runs] %>
+          <% r.each do |run| %>
+          [<%= run[:time] %>, <%= run[:memory] %>],
+          <% end %>
+        ],
+      },
+        <% end %>
+      <% end %>
+    ],
+  });
+};
+
+window.setTimeout(display_runs, 750);

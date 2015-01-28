@@ -2,7 +2,7 @@
   RubyBench - Multiple MRI benchmarks
 <% end %>
 
-<%= form_tag select_compilers_path, method: :get do %>
+<%= form_tag select_implementations_path, method: :get do %>
   <% @grouped_benchmarks.each do |group, benchmarks| %>
     <div class="row">
       <div class="col-xs-12">
@@ -25,9 +25,9 @@
 <hr>
 
 <% @benchmarks.each do |benchmark, results| %>
-  <%= render partial: 'compilers/benchmark',
+  <%= render partial: 'benchmarks/benchmark',
              locals: { benchmark: benchmark, results: results, source_hidden: true, title_hidden: false,
-                       runs_path: runs_compiler_path(benchmark), section_bench_path: compiler_path(benchmark) } %>
+                       runs_path: runs_implementation_path(benchmark), section_bench_path: implementation_path(benchmark) } %>
 <% end %>
 
 <%= javascript_tag 'new window.source_toggle()' %>

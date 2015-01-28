@@ -1,0 +1,57 @@
+<div id="time_chart_<%= benchmark.name.parameterize %>"></div>
+<script>
+  $(function () {
+    $('#time_chart_<%= benchmark.name.parameterize %>').highcharts({
+      chart: {
+        type: 'column'
+      },
+      title: {
+        text: '<%= benchmark.name%> time results'
+      },
+      xAxis: {
+        type: 'category',
+        title: {
+          text: 'Versions'
+        }
+      },
+      yAxis: {
+//        type: 'logarithmic',
+        title: {
+          text: 'Time (second)'
+        },
+//        min: 0
+      },
+      plotOptions: {
+        line: {
+          dataLabels: {
+            enabled:  true
+          },
+          enableMouseTracking: false
+        }
+      },
+      tooltip: {
+        pointFormat: '<b>{point.y:,.4f}</b> sec'
+      },
+      series: [
+        <% results.keys.sort.reverse.each do |ruby_version| %>
+        <% compilers = results[ruby_version] %>
+        {
+          name: '<%= ruby_version %>',
+          showInLegend: true,
+          data: [
+
+            <% compilers.keys.sort.each do |compiler| %>
+            <% data = compilers[compiler] %>
+            {
+              name: '<%= compiler %>',
+              y: <%= data[:average] %>,
+              color: Highcharts.getOptions().colors[<%= Result::COMPILERS.index(compiler.split(' ')[0]) %>]
+            },
+            <% end %>
+          ],
+        },
+        <% end %>
+      ],
+    });
+  });
+</script>

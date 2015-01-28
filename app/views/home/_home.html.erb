@@ -1,0 +1,26 @@
+<span class="ruby">Rubyfy.ME</span> is open source project focused on Ruby benchmarking. It is split into three
+main sections.
+<br>Each run captures <span class="ruby">time</span> needed to finish benchmark code,
+<span class="ruby">memory used</span> for benchmark as well as <span class="ruby">total memory</span> consumption for the
+running process.
+
+<br><br>
+
+<%= link_to mri_index_path do %></li><h4 class="ruby">MRI Benchmarks</h4><% end %>
+Benchmarks of official MRI releases. Currently supporting following versions:
+<%= RubyVersion.where(implementation: 'MRI').order('name ASC').map(&:name).join(', ') %>
+
+<br><br>
+
+<%= link_to compilers_path do %><h4 class="ruby">MRI Compilers benchmarks</h4><% end %>
+For MRI versions <%= RubyVersion.where(implementation: 'MRI').select { |version| version.results.map(&:gcc).uniq.count > 1 }.map(&:name).join(', ') %>,
+we support compilers benchmarking for following compilers: <%= Result.pluck(:gcc).select{|c| c != 'Undefined' }.uniq.sort.join(', ') %>.
+
+<br><br>
+
+<%= link_to implementations_path do %><h4 class="ruby">Implementations benchmarks</h4><% end %>
+For other ruby implementations. Currently supporting:
+<% RubyVersion::IMPLEMENTATIONS.values.each do |k| %>
+  <% next if k == 'MRI' %>
+  <br><strong><%= k %></strong>: <%= RubyVersion.where(implementation: k).map(&:name).join(', ') %>
+<% end %>

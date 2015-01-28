@@ -22,4 +22,6 @@ class Result < ActiveRecord::Base
 
   validates :memory, numericality: { greater_than: 0 }
 
+  COMPILERS = ['GCC', 'Clang']
+
 end
