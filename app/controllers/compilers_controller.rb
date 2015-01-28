@@ -2,6 +2,7 @@ require 'result_graph'
 require 'coderay'
 
 class CompilersController < ApplicationController
+  before_action :available_ruby_versions, :shown_ruby
 
   def index
     redirect_to compiler_path(RubyBenchmark.first, ruby: shown_ruby)
@@ -55,7 +56,7 @@ class CompilersController < ApplicationController
   end
 
   def available_ruby_versions
-    RubyVersion.includes(:results).where(implementation: 'MRI')
+    @available_rubies = RubyVersion.includes(:results).where(implementation: 'MRI')
     .select { |version| version.results.map(&:gcc).uniq.count > 1 }
   end
 

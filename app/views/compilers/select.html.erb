@@ -2,6 +2,8 @@
   RubyBench - Multiple MRI benchmarks
 <% end %>
 
+<%= render partial: 'navigation' %>
+
 <%= form_tag select_compilers_path, method: :get do %>
   <% @grouped_benchmarks.each do |group, benchmarks| %>
     <div class="row">
@@ -18,6 +20,13 @@
   <br>
   <div class="row">
     <div class="col-xs-12">
+      <%= select_tag(:ruby, options_from_collection_for_select(@available_rubies, :name, :display_name, @shown_ruby),
+                     allow_blank: false, class: 'form-control from-inline', data: { section: 'compilers' }) %>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-xs-12">
       <%= submit_tag 'Submit', class: 'btn btn-success col-xs-12' %>
     </div>
   </div>
@@ -27,7 +36,7 @@
 <% @benchmarks.each do |benchmark, results| %>
   <%= render partial: 'compilers/benchmark',
              locals: { benchmark: benchmark, results: results, source_hidden: true, title_hidden: false,
-                       runs_path: runs_compiler_path(benchmark), section_bench_path: compiler_path(benchmark) } %>
+                       runs_path: runs_compiler_path(benchmark, ruby: @shown_ruby), section_bench_path: compiler_path(benchmark, ruby: @shown_ruby) } %>
 <% end %>
 
 <%= javascript_tag 'new window.source_toggle()' %>

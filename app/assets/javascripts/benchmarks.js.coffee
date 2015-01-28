@@ -7,7 +7,11 @@ class window.benchmark_selector
     $('select#ruby_benchmark').on 'change', ->
       page = $('select#ruby_benchmark').val()
       section = $('select#ruby_benchmark').data('section')
-      window.location = "/#{section}/#{page}"
+      window.location = "/#{section}/#{page}" + window.location.search
+
+    $('select#ruby_version').on 'change', ->
+      ruby = $('select#ruby_version').val()
+      window.location = window.location.pathname + "?ruby=#{ruby}"
 
 class window.source_toggle
   constructor: ->

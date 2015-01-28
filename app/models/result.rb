@@ -15,7 +15,7 @@ class Result < ActiveRecord::Base
   belongs_to :ruby_version
   belongs_to :ruby_benchmark
 
-  validates_presence_of :ruby_version, :ruby_benchmark, :run_at, :time, :gcc, :memory
+  validates_presence_of :ruby_version, :ruby_benchmark, :run_at, :time, :gcc, :memory, :total_memory
 
   validates :time,  uniqueness: { scope: [:run_at, :ruby_version_id, :ruby_benchmark_id, :gcc]},
                     numericality: { greater_than: 0 }

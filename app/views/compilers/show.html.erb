@@ -3,18 +3,24 @@
   Compiler MRI Benchmark - <%= @benchmark.name.capitalize %>
 <% end %>
 
+<%= render partial: 'navigation' %>
+
 <div class="row">
-  <div class="col-xs-12 text-center">
+  <div class="col-xs-7 text-center">
     <h2 class="ruby">Select benchmark</h2>
+  </div>
+  <div class="col-xs-5 text-center">
+    <h2 class="ruby">Select Ruby version</h2>
   </div>
 </div>
 <div class="row">
-  <div class="col-xs-9">
+  <div class="col-xs-7">
     <%= select_tag(:ruby_benchmark, grouped_options_for_select(@grouped_benchmarks, @benchmark.name),
                    allow_blank: false, class: 'form-control', data: { section: 'compilers' }) %>
   </div>
-  <div class="col-xs-3">
-    <%= link_to 'Select multiple', select_compilers_path, class: 'btn btn-primary col-xs-12' %>
+  <div class="col-xs-5">
+    <%= select_tag(:ruby_version, options_from_collection_for_select(@available_rubies, :name, :display_name, @shown_ruby),
+                   allow_blank: false, class: 'form-control', data: { section: 'compilers' }) %>
   </div>
 </div>
 <br>
@@ -22,7 +28,7 @@
 
 <%= render partial: 'compilers/benchmark',
            locals: { benchmark: @benchmark, results: @results, source_hidden: false, title_hidden: true,
-                     runs_path: runs_compiler_path(@benchmark), section_bench_path: compiler_path(@benchmark) } %>
+                     runs_path: runs_compiler_path(@benchmark, ruby: @shown_ruby), section_bench_path: compiler_path(@benchmark, ruby: @shown_ruby) } %>
 
 <%= javascript_tag 'new window.benchmark_selector()' %>
 <%= javascript_tag 'new window.source_toggle()' %>
