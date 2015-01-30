@@ -11,6 +11,7 @@
 
 class RubyVersion < ActiveRecord::Base
   has_many :results, dependent: :destroy
+  has_many :ruby_benchmarks, through: :results
 
   attr_writer :full_name
 
@@ -29,7 +30,7 @@ class RubyVersion < ActiveRecord::Base
   end
 
   def full_name= (str)
-    if str && res = str.match(/\A(.*)-([\d\.]+)\Z/)
+    if str && res = str.match(/\A(.*)-([\d\.a-zA-Z]+)\Z/)
       self.implementation = IMPLEMENTATIONS[res[1]]
       self.name = res[2]
     end

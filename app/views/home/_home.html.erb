@@ -22,5 +22,5 @@ we support compilers benchmarking for following compilers: <%= Result.pluck(:gcc
 For other ruby implementations. Currently supporting:
 <% RubyVersion::IMPLEMENTATIONS.values.each do |k| %>
   <% next if k == 'MRI' %>
-  <br><strong><%= k %></strong>: <%= RubyVersion.where(implementation: k).map(&:name).join(', ') %>
+  <br><strong><%= k %></strong>: <%= RubyVersion.where(implementation: k).map(&:name).sort.join(', ') %>
 <% end %>

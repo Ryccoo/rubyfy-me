@@ -1,8 +1,8 @@
 class ResultGraph
 
-  def initialize(benchmark)
+  def initialize(benchmark = nil)
     @benchmark = benchmark
-    @results = benchmark.results
+    @results = benchmark.try(:results)
   end
 
   def average_for_version(results = @results, options = {})
@@ -72,6 +72,46 @@ class ResultGraph
     end
 
     averages
+  end
+
+  def compilers_overview(results)
+    benchmarks = {}
+    results.each do |r|
+      (benchmarks[r.ruby_benchmark] ||= []) << r
+    end
+
+    benchmark_averages = {}
+
+    benchmarks.each do |benchmark, results|
+      benchmark_averages[benchmark] = {}
+      # get averages
+      results = average_for_version(results, with_compiler_separation: true)
+      results.each do |ruby_version, compilers|
+        binding.pry if compilers.nil?
+        benchmark_averages[benchmark][ruby_version] = {}
+        tmp = {
+          version_average_time: 0,
+          version_average_memory: 0,
+          version_average_total_memory: 0,
+          count: 0
+        }
+        compilers.each do |compiler, data|
+          tmp[:version_average_time] += data[:average]
+          tmp[:version_average_memory] += data[:memory_average]
+          tmp[:version_average_total_memory] += data[:memory_total_average]
+          tmp[:count] += 1
+        end
+        tmp = {
+          version_average_time: tmp[:version_average_time] / tmp[:count],
+          version_average_memory: tmp[:version_average_memory] / tmp[:count],
+          version_average_total_memory: tmp[:version_average_total_memory] / tmp[:count]
+        }
+
+        benchmark_averages[benchmark][ruby_version] = tmp
+      end # end get averages
+    end
+
+    binding.pry
   end
 
 end
