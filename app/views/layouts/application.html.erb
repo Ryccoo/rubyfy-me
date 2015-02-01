@@ -7,11 +7,11 @@
   <script src="http://code.highcharts.com/highcharts-3d.js"></script>
   <%= csrf_meta_tags %>
   <%= analytics_init if Rails.env.production? %>
-  <meta name="description" content="RubyFy.ME open source project is focused on benchmarking MRI ruby versions from 1.8.6. as well as benchmarking other implementations of ruby." />
+  <meta name="description" content="Rubyfy.ME is an open source project focused on benchmarking MRI ruby versions from 1.8.6. as well as benchmarking other implementations of ruby." />
   <meta name="keywords" content="Rubyfy, Rubyfy me, Ruby, MRI, version, benchmark, benchmarking, <%= yield :keywords %>">
   <link rel="author" href="https://github.com/Ryccoo" />
-  <meta property="og:title" content="RubyBench - MRI benchmark world" />
-  <meta property="og:description" content="RubyFy.ME open source project is focused on benchmarking MRI ruby versions from 1.8.6. as well as benchmarking other implementations of ruby." />
+  <meta property="og:title" content="Rubyfy.ME- <%= yield :title %>" />
+  <meta property="og:description" content="Rubyfy.ME is an open source project focused on benchmarking MRI ruby versions from 1.8.6. as well as benchmarking other implementations of ruby." />
 </head>
 <body>
 

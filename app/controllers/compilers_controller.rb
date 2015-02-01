@@ -5,10 +5,10 @@ class CompilersController < ApplicationController
   before_action :available_ruby_versions, :shown_ruby
 
   def index
-    redirect_to compiler_path(RubyBenchmark.first, ruby: shown_ruby)
-    #ruby = RubyVersion.where(name: shown_ruby, implementation: 'MRI' ).first
-    #query = Result.includes(:ruby_version, :ruby_benchmark).where(ruby_version_id: ruby)
-    #@results = ResultGraph.new().compilers_overview(query)
+    # redirect_to compiler_path(RubyBenchmark.first, ruby: shown_ruby)
+    ruby = RubyVersion.where(name: shown_ruby, implementation: 'MRI' ).first
+    query = Result.includes(:ruby_version, :ruby_benchmark).where(ruby_version_id: ruby)
+    @results = ResultGraph.new().compilers_overview(query)
   end
 
   def show
@@ -25,7 +25,9 @@ class CompilersController < ApplicationController
   def select
     @selected = params[:b] || []
 
-    @grouped_benchmarks = available_benchmarks.inject({}) do |hsh, bench|
+    ruby = RubyVersion.includes(:ruby_benchmarks).where(implementation: 'MRI', name: shown_ruby).first
+
+    @grouped_benchmarks = available_benchmarks(ruby).inject({}) do |hsh, bench|
       (hsh[bench.benchmark_collection] ||= []) << bench
       hsh
     end

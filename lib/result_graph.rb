@@ -81,13 +81,14 @@ class ResultGraph
     end
 
     benchmark_averages = {}
+    benchmarks_percentages = {}
 
     benchmarks.each do |benchmark, results|
       benchmark_averages[benchmark] = {}
+      benchmarks_percentages[benchmark] = {}
       # get averages
       results = average_for_version(results, with_compiler_separation: true)
       results.each do |ruby_version, compilers|
-        binding.pry if compilers.nil?
         benchmark_averages[benchmark][ruby_version] = {}
         tmp = {
           version_average_time: 0,
@@ -109,9 +110,39 @@ class ResultGraph
 
         benchmark_averages[benchmark][ruby_version] = tmp
       end # end get averages
+
+      results.each do |ruby_version, compilers|
+        benchmarks_percentages[benchmark][ruby_version] = {}
+        compilers.each do |compiler,data|
+          benchmarks_percentages[benchmark][ruby_version][compiler] = {
+            time: ((data[:average] * 100.0) / benchmark_averages[benchmark][ruby_version][:version_average_time]) - 100,
+            memory: ((data[:memory_average] * 100.0) / benchmark_averages[benchmark][ruby_version][:version_average_memory]) - 100,
+            total_memory: ((data[:memory_total_average] * 100.0) / benchmark_averages[benchmark][ruby_version][:version_average_total_memory]) - 100
+          }
+        end
+      end
     end
 
-    binding.pry
+    version_compiler_percentages = {}
+    benchmarks_percentages.each do |benchmark, ruby_versions|
+      ruby_versions.each do |ruby_version, compilers|
+        version_compiler_percentages[ruby_version] = {}
+        compilers.each do |compiler, data|
+          version_compiler_percentages[ruby_version][compiler] ||= {
+            time: 0,
+            memory: 0,
+            total_memory: 0
+          }
+
+          version_compiler_percentages[ruby_version][compiler][:time] += data[:time]
+          version_compiler_percentages[ruby_version][compiler][:memory] += data[:memory]
+          version_compiler_percentages[ruby_version][compiler][:total_memory] += data[:total_memory]
+
+        end
+      end
+    end
+
+    version_compiler_percentages
   end
 
 end
