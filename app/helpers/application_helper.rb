@@ -8,13 +8,21 @@ module ApplicationHelper
 
   def get_average_for_compilers_benchmark(results, field)
     average = count = 0
-    results.keys.sort.reverse.each do |ruby_version|
-      compilers = results[ruby_version]
-      compilers.keys.sort.each do |compiler|
-        data = compilers[compiler]
+    results.values.each do |compilers|
+      compilers.each do |compiler, data|
         average += data[field]
         count += 1
       end
+    end
+
+    (average / count)
+  end
+
+  def get_average_for_benchmark(results, field)
+    average = count = 0
+    results.each do |ruby_version, data|
+      average += data[field]
+      count += 1
     end
 
     (average / count)
