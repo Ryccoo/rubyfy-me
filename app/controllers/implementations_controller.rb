@@ -4,7 +4,13 @@ require 'coderay'
 class ImplementationsController < ApplicationController
 
   def index
-    redirect_to implementation_path(RubyBenchmark.first)
+    # redirect_to implementation_path(RubyBenchmark.first)
+    mri_shown = RubyVersion.where(implementation: 'MRI').order('name DESC').first(5)
+    query = Result.includes(:ruby_version, :ruby_benchmark).where(ruby_versions: {implementation: ['JRuby', 'Rubinius']}) +
+      Result.includes(:ruby_version, :ruby_benchmark).where(ruby_version_id: mri_shown, gcc: 'GCC 4.8 -O3')
+    @results = ResultGraph.new().versions_overview(query)
+
+
   end
 
   def show
@@ -50,7 +56,7 @@ class ImplementationsController < ApplicationController
     mri_shown = RubyVersion.where(implementation: 'MRI').order('name DESC').first(5)
 
     query = benchmark.results.includes(:ruby_version)
-    .where(ruby_versions: {implementation: ['Jruby', 'Rubinius']}) +
+    .where(ruby_versions: {implementation: ['JRuby', 'Rubinius']}) +
       benchmark.results.includes(:ruby_version)
       .where(ruby_version_id: mri_shown, gcc: 'GCC 4.8 -O3')
 

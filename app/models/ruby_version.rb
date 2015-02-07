@@ -36,4 +36,13 @@ class RubyVersion < ActiveRecord::Base
     end
   end
 
+  def self.version_color(version)
+    if res = version.match(/\A([a-zA-Z]*) ([\d\.a-zA-Z]+)\Z/)
+      implementation = res[1]
+      return IMPLEMENTATIONS.values.index(implementation)
+    else
+      return 0
+    end
+  end
+
 end

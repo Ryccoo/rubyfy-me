@@ -74,7 +74,7 @@ class ResultGraph
     averages
   end
 
-  def compilers_overview(results)
+  def compilers_overview(results = @results)
     benchmarks = {}
     results.each do |r|
       (benchmarks[r.ruby_benchmark] ||= []) << r
@@ -143,6 +143,73 @@ class ResultGraph
     end
 
     version_compiler_percentages
+  end
+
+  def versions_overview(results = @results)
+    benchmarks = {}
+    versions_count = results.collect(&:ruby_version).uniq.count
+
+    results.each do |r|
+      (benchmarks[r.ruby_benchmark] ||= []) << r
+    end
+
+    benchmark_averages = {}
+    benchmarks_percentages = {}
+    version_percentages = {}
+
+    benchmarks.each do |benchmark, results|
+
+      # skip if benchmark was not completed by all versions
+      next if results.collect(&:ruby_version).uniq.count != versions_count
+      benchmark_averages[benchmark] = {
+        version_average_time: 0,
+        version_average_memory: 0,
+        version_average_total_memory: 0,
+        count: 0
+      }
+      benchmarks_percentages[benchmark] = {}
+      results = average_for_version(results)
+
+      results.each do |ruby_version, data|
+        benchmark_averages[benchmark][:version_average_time] += data[:average]
+        benchmark_averages[benchmark][:version_average_memory] += data[:memory_average]
+        benchmark_averages[benchmark][:version_average_total_memory] += data[:memory_total_average]
+        benchmark_averages[benchmark][:count] += 1
+      end
+
+      benchmark_averages[benchmark] = {
+        version_average_time:  benchmark_averages[benchmark][:version_average_time] /  benchmark_averages[benchmark][:count],
+        version_average_memory:  benchmark_averages[benchmark][:version_average_memory] /  benchmark_averages[benchmark][:count],
+        version_average_total_memory:  benchmark_averages[benchmark][:version_average_total_memory] /  benchmark_averages[benchmark][:count]
+      }
+
+      results.each do |ruby_version, data|
+        benchmarks_percentages[benchmark][ruby_version] = {
+          time: ((data[:average] * 100.0) / benchmark_averages[benchmark][:version_average_time]) - 100,
+          memory: ((data[:memory_average] * 100.0) / benchmark_averages[benchmark][:version_average_memory]) - 100,
+          total_memory: ((data[:memory_total_average] * 100.0) / benchmark_averages[benchmark][:version_average_total_memory]) - 100
+        }
+
+        version_percentages[ruby_version] ||= {
+          time: 0,
+          memory: 0,
+          total_memory: 0
+        }
+        version_percentages[ruby_version][:time] += benchmarks_percentages[benchmark][ruby_version][:time]
+        version_percentages[ruby_version][:memory] += benchmarks_percentages[benchmark][ruby_version][:memory]
+        version_percentages[ruby_version][:total_memory] += benchmarks_percentages[benchmark][ruby_version][:total_memory]
+      end
+    end
+
+    version_percentages.each do |ruby_version, data|
+      version_percentages[ruby_version] = {
+        time: data[:time] / benchmark_averages.keys.count,
+        memory: data[:memory] / benchmark_averages.keys.count,
+        total_memory: data[:total_memory] / benchmark_averages.keys.count
+      }
+    end
+
+    version_percentages
   end
 
 end

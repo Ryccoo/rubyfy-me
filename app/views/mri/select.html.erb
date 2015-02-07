@@ -2,6 +2,8 @@
   RubyBench - Multiple MRI benchmarks
 <% end %>
 
+<%= render partial: 'navigation' %>
+
 <%= form_tag select_mri_index_path, method: :get do %>
   <% @grouped_benchmarks.each do |group, benchmarks| %>
     <div class="row">

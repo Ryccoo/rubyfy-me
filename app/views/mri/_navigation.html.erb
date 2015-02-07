@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="col-xs-4 text-center">
+    <%= link_to 'Overview', mri_index_path, class: 'inside_navigation' %>
+  </div>
+  <div class="col-xs-4 text-center">
+    <%= link_to 'Benchmarks', mri_path(RubyBenchmark.first, ruby: @shown_ruby), class: 'inside_navigation' %>
+  </div>
+  <div class="col-xs-4 text-center">
+    <%= link_to 'Show multiple', select_mri_index_path(ruby: @shown_ruby), class: 'inside_navigation' %>
+  </div>
+</div>
+<hr>

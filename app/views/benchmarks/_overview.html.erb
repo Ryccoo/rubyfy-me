@@ -1,0 +1,57 @@
+<div id="time_chart_overview_<%= type %>"></div>
+<script>
+  $(function () {
+    $('#time_chart_overview_<%= type %>').highcharts({
+      chart: {
+        type: 'column',
+        zoomType: 'x'
+      },
+      title: {
+        text: '<%= title %>'
+      },
+      xAxis: {
+        type: 'category',
+        title: {
+          text: 'Compilers'
+        }
+      },
+      yAxis: {
+//        type: 'logarithmic',
+        title: {
+          text: 'Percentage from average'
+        },
+//        min: 0
+      },
+      tooltip: {
+        pointFormat: '<b>{point.y:,.4f}</b>% <%= tooltip %>'
+      },
+      series: [
+        {
+          name: '',
+          showInLegend: false,
+          data: [
+            <% results.keys.sort.each do |ruby_version| %>
+            <% data = results[ruby_version] %>
+            {
+              name: '<%= ruby_version %>',
+              y: <%= data[type] %>,
+              color: Highcharts.getOptions().colors[<%= RubyVersion.version_color(ruby_version) %>]
+            },
+            <% end %>
+          ],
+        },
+      ],
+      exporting: {
+        buttons: {
+          customButton: {
+            x: -42,
+            onclick: function () {
+              toggle_full_screen('#time_chart_overview_<%= type %>');
+            },
+            text: 'Fullscreen'
+          }
+        }
+      },
+    });
+  });
+</script>

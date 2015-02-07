@@ -1,5 +1,5 @@
 <%= content_for :title do %>
-  Compilers overview
+  Implementations overview
 <% end %>
 
 <%= render partial: 'navigation' %>
@@ -11,8 +11,10 @@
   <div class="col-xs-12 col-md-offset-1 col-md-10">
     <strong>How are graphs made?</strong>
     For each benchmark was calculated an average (time / memory / total memory). Then are calculated differences from that
-    average for each compiler in percentages. Finally sum(to maximize effect) of all percentage is made across all benchmarks available. This
+    average for each compiler in percentages. Finally average of all percentage is made across all benchmarks available. This
     method allows us to show differences more accurate then pointing system based on places.
+    <br><br>
+    <p class="ruby">Only benchmarks completed by all versions all taken into account.</p>
   </div>
 </div>
 
@@ -20,18 +22,19 @@
 
 <div class="row">
   <div class="col-xs-12">
-    <%= render partial: 'compilers/overview', locals:
+    <%= render partial: 'benchmarks/overview', locals:
       { results: @results, type: :time, title: 'Execution time performance', tooltip: 'from average execution time' } %>
   </div>
 </div>
+
 <div class="row">
-  <div class="col-xs-12 col-md-6">
-    <%= render partial: 'compilers/overview', locals:
+  <div class="col-xs-6">
+    <%= render partial: 'benchmarks/overview', locals:
       { results: @results, type: :memory, title: 'Memory performance', tooltip: 'from average memory usage' } %>
   </div>
 
-  <div class="col-xs-12 col-md-6">
-    <%= render partial: 'compilers/overview', locals:
+  <div class="col-xs-6">
+    <%= render partial: 'benchmarks/overview', locals:
       { results: @results, type: :total_memory, title: 'Total executable memory performance', tooltip: 'from average total memory usage' } %>
   </div>
 </div>
