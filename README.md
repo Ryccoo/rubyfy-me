@@ -40,7 +40,7 @@ Rubyfy.Me consists of two components:
 
 #Usage of benchmark suite
 ``` blank
-Usage: run.rb [options]
+Usage: rubyfy.rb [options]
     -d, --pull                       Pull all docker images
     -t, --test                       Test docker images
     -c, --clear                      Clear all unused docker containers
@@ -50,14 +50,14 @@ Usage: run.rb [options]
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ENVIRONMENT SETTINGS
   This benchmark suite uses ENV gem that allows you to store all your environment settings into file.
-  This file is located in root of this application (where the file run.rb is located) and needs to be named ".env".
+  This file is located in root of this application (where the file rubyfy.rb is located) and needs to be named ".env".
 
   Environment settings for benchmarking
 
     BENCH_REPEATS=x                  Repeat each benchmark x times. Default value is 10.
 
     BENCH_FILE=name                  Runs only selected benchmark. Use full path from benchmarks folder.
-                                      Example: BENCH_FILE="ruby-official/bm_vm3_gc.rb" ./run.rb --run will
+                                      Example: BENCH_FILE="ruby-official/bm_vm3_gc.rb" ./rubyfy.rb --run will
                                       run benchmark suite only for benchmark bm_vm3_gc.rb located in benchmarks/ruby-official
                                       folder.
 
@@ -70,11 +70,11 @@ ENVIRONMENT SETTINGS
                                      to be set at RubyFy.Me rails app.
 
     BENCH_SITE=site                  URL (WITHOUT PORT) of rails app displaying stored results.
-                                      Examples: BENCH_SITE="localhost" BENCH_PORT=3000 ./run.rb --publish
-                                                BENCH_SITE="http://rubyfy.me" ./run.rb --publish
+                                      Examples: BENCH_SITE="localhost" BENCH_PORT=3000 ./rubyfy.rb --publish
+                                                BENCH_SITE="http://rubyfy.me" ./rubyfy.rb --publish
 
     BENCH_PORT=x                    Port of rails app displaying stored results.
-                                      Example: BENCH_SITE=localhost BENCH_PORT=3000 ./run.rb --publish will
+                                      Example: BENCH_SITE=localhost BENCH_PORT=3000 ./rubyfy.rb --publish will
                                       push results to localhost on port 3000.
                                       IMPORTANT: USE THIS ONLY WHEN PORT IS DIFFERENT THAN 80
 
