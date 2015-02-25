@@ -36,7 +36,7 @@ Rubyfy.Me consists of two components:
 * Benchmarking suite
   1. Pull [rubyfy-me-benchmark-suite repository](https://github.com/Ryccoo/rubyfy-me-docker-suite).
   2. Run `bundle install` to install all required gems.
-  3. Use `./run.rb -h` to display help or read below.
+  3. Use `./rubyfy.rb -h` to display help or read below.
 
 #Usage of benchmark suite
 ``` blank
