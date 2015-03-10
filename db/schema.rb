@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150111190442) do
+ActiveRecord::Schema.define(version: 20150304173503) do
 
   create_table "results", force: true do |t|
     t.integer  "ruby_version_id"
@@ -23,6 +23,8 @@ ActiveRecord::Schema.define(version: 20150111190442) do
     t.string   "gcc"
     t.decimal  "memory",            precision: 14, scale: 4
     t.decimal  "total_memory",      precision: 14, scale: 4
+    t.text     "stdout"
+    t.text     "stderr"
   end
 
   add_index "results", ["ruby_benchmark_id"], name: "index_results_on_ruby_benchmark_id", using: :btree

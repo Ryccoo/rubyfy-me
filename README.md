@@ -30,13 +30,22 @@ Rubyfy.Me consists of two components:
 * Web
   1. Pull [rubyfy-me-web repository](https://github.com/Ryccoo/rubyfy-me).
   2. Run `bundle install` to install all required gems.
-  3. Run `rails server` to start the server.
+  3. Default database config requires `mysql` with user `ruby` identified by `ruby`
+  4. Run `rails server` to start the server.
 
 
 * Benchmarking suite
   1. Pull [rubyfy-me-benchmark-suite repository](https://github.com/Ryccoo/rubyfy-me-docker-suite).
   2. Run `bundle install` to install all required gems.
   3. Use `./rubyfy.rb -h` to display help or read below.
+
+#Benchmarks
+
+All suite benchmarks are located inside **benchmarks** folder, however, they must be located exactly in one
+subfolder, specifying their group.
+
+There is a special group of benchmarks called **custom**, which don't use the default benchmarking pattern (time, memory) as others. All benchmarks within this subfolder are benchmarked without any changes to its code and **stdout** is only being stored.
+
 
 #Usage of benchmark suite
 ``` blank

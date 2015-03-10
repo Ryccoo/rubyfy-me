@@ -1,0 +1,187 @@
+<%= content_for :keywords do %><%= @benchmark.name %><% end %>
+<%= content_for :title do %>
+  Ruby Parallelism Benchmark
+<% end %>
+
+<div class="row">
+  <div class="col-xs-12 text-center">
+    <h1>Parallelism</h1>
+  </div>
+</div>
+<hr>
+<div class="modal-chart-small" id="parallelism_chart"></div>
+<div class="modal-chart-small" id="parallelism_score"></div>
+
+
+<div class="row">
+  <div class="col-xs-10 col-xs-offset-1 text-center">
+    <h2 class="ruby">Source <button class="btn btn-primary btn-sm" data-toggle-btn="true" data-toggle-elem="<%= @benchmark.name %>">hide / show</button></h2>
+    <div class="custom-well CodeRay text-left" data-toggle-name="<%= @benchmark.name %>">
+      <pre><%= CodeRay.scan(@benchmark.source, :ruby).html(
+                 :wrap => nil,
+                 :line_numbers => :inline
+               ).html_safe %>
+      </pre>
+    </div>
+  </div>
+</div>
+<hr>
+
+<script>
+  $(function () {
+    $('#parallelism_chart').highcharts({
+      chart: {
+        type: 'column',
+        zoomType: 'x'
+      },
+      title: {
+        text: '<%= @benchmark.name %> results'
+      },
+      xAxis: {
+        type: 'category',
+        title: {
+          text: 'Versions'
+        }
+      },
+      yAxis: {
+//        type: 'logarithmic',
+        title: {
+          text: 'Time (second)'
+        },
+
+      },
+
+      tooltip: {
+        pointFormat: '<b>{point.y:,.4f}</b> sec'
+      },
+      series: [
+        {
+          name: 'Ruby Implementations',
+          showInLegend: false,
+          data: [
+            <% @results.keys.sort_by(&:display_name).each do |ruby_version| %>
+            <% data = @results[ruby_version] %>
+            {
+              name: '<%= ruby_version.display_name %>',
+              y: <%= data[:time] %>,
+              color: Highcharts.getOptions().colors[<%= RubyVersion::IMPLEMENTATIONS.values.index ruby_version.implementation %>]
+            },
+            <% end %>
+          ],
+        }
+      ],
+      exporting: {
+        buttons: {
+          customButton: {
+            x: -42,
+            onclick: function () {
+              toggle_full_screen('#parallelism_chart');
+            },
+            text: 'Fullscreen'
+          }
+        }
+      },
+    });
+  });
+</script>
+
+<script>
+  $(function () {
+    $('#parallelism_score').highcharts({
+      chart: {
+        type: 'column',
+        zoomType: 'x'
+      },
+      title: {
+        text: '<%= @benchmark.name %> score'
+      },
+      xAxis: {
+        type: 'category',
+        title: {
+          text: 'Versions'
+        }
+      },
+      yAxis: {
+//        type: 'logarithmic',
+        title: {
+          text: 'Points'
+        },
+        plotBands: [
+          {
+            color: '#a3acf0',
+            from: -25,
+            to: 10,
+            label : {
+              text : 'No computation parallelism (likely has a GIL)',
+              y: 0,
+            }
+          },
+          {
+            color: '#a3f0e2',
+            from: 10,
+            to: 80,
+            label : {
+              text : "Somewhat parallel, likely some system locking overhead",
+              align: 'center',
+              y: 0,
+            }
+          },
+          {
+            color: '#f0a3ca',
+            from: 80,
+            to: 93,
+            label : {
+              text : "Fully parallel with minor locking overhead",
+              align: 'center',
+              y: 0,
+            }
+          },
+          {
+            color: '#f0dda3',
+            from: 93,
+            to: 100,
+            label : {
+              text : "Fully parallel with little to no overhead",
+              align: 'center',
+              y: 0,
+            }
+          }
+        ],
+
+//        min: 0
+      },
+      tooltip: {
+        pointFormat: '<b>{point.y:,.4f}</b> points'
+      },
+      series: [
+        {
+          name: 'Ruby Implementations',
+          showInLegend: false,
+          data: [
+            <% @results.keys.sort_by(&:display_name).each do |ruby_version| %>
+            <% data = @results[ruby_version] %>
+            {
+              name: '<%= ruby_version.display_name %>',
+              y: <%= data[:score] %>,
+              color: Highcharts.getOptions().colors[<%= RubyVersion::IMPLEMENTATIONS.values.index ruby_version.implementation %>]
+            },
+            <% end %>
+          ],
+        }
+      ],
+      exporting: {
+        buttons: {
+          customButton: {
+            x: -42,
+            onclick: function () {
+              toggle_full_screen('#parallelism_score');
+            },
+            text: 'Fullscreen'
+          }
+        }
+      },
+    });
+  });
+</script>
+
+<%= javascript_tag 'new window.source_toggle()' %>

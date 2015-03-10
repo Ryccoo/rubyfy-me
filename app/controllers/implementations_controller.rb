@@ -6,15 +6,15 @@ class ImplementationsController < ApplicationController
   def index
     # redirect_to implementation_path(RubyBenchmark.first)
     mri_shown = RubyVersion.where(implementation: 'MRI').order('name DESC').first(5)
-    query = Result.includes(:ruby_version, :ruby_benchmark).where(ruby_versions: {implementation: ['JRuby', 'Rubinius']}) +
-      Result.includes(:ruby_version, :ruby_benchmark).where(ruby_version_id: mri_shown, gcc: 'GCC 4.8 -O3')
+    query = Result.not_custom.includes(:ruby_version, :ruby_benchmark).where(ruby_versions: {implementation: ['JRuby', 'Rubinius']}) +
+      Result.not_custom.includes(:ruby_version, :ruby_benchmark).where(ruby_version_id: mri_shown, gcc: 'GCC 4.8 -O3')
     @results = ResultGraph.new().versions_overview(query)
 
 
   end
 
   def show
-    @grouped_benchmarks = RubyBenchmark.all.order(:name).inject({}) do |hsh, bench|
+    @grouped_benchmarks = RubyBenchmark.not_custom.order(:name).inject({}) do |hsh, bench|
       (hsh[bench.benchmark_collection] ||= []) << bench.name
       hsh
     end
@@ -27,7 +27,7 @@ class ImplementationsController < ApplicationController
   def select
     @selected = params[:b] || []
 
-    @grouped_benchmarks = RubyBenchmark.all.order(:name).inject({}) do |hsh, bench|
+    @grouped_benchmarks = RubyBenchmark.not_custom.order(:name).inject({}) do |hsh, bench|
       (hsh[bench.benchmark_collection] ||= []) << bench
       hsh
     end

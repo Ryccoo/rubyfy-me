@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  resources :custom, only: [] do
+    collection do
+      get 'parallelism'
+    end
+  end
+
   apipie
   get 'home/index'
   get 'hardware', to: 'home#hardware'

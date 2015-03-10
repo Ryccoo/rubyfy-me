@@ -5,14 +5,13 @@ class CompilersController < ApplicationController
   before_action :available_ruby_versions, :shown_ruby
 
   def index
-    # redirect_to compiler_path(RubyBenchmark.first, ruby: shown_ruby)
     ruby = RubyVersion.where(name: shown_ruby, implementation: 'MRI' ).first
-    query = Result.includes(:ruby_version, :ruby_benchmark).where(ruby_version_id: ruby)
+    query = Result.not_custom.includes(:ruby_version, :ruby_benchmark).where(ruby_version_id: ruby)
     @results = ResultGraph.new().compilers_overview(query)
   end
 
   def show
-    @grouped_benchmarks = RubyBenchmark.all.order(:name).inject({}) do |hsh, bench|
+    @grouped_benchmarks = RubyBenchmark.not_custom.order(:name).inject({}) do |hsh, bench|
       (hsh[bench.benchmark_collection] ||= []) << bench.name
       hsh
     end
@@ -25,9 +24,7 @@ class CompilersController < ApplicationController
   def select
     @selected = params[:b] || []
 
-    ruby = RubyVersion.includes(:ruby_benchmarks).where(implementation: 'MRI', name: shown_ruby).first
-
-    @grouped_benchmarks = available_benchmarks(ruby).inject({}) do |hsh, bench|
+    @grouped_benchmarks = available_benchmarks.inject({}) do |hsh, bench|
       (hsh[bench.benchmark_collection] ||= []) << bench
       hsh
     end
@@ -73,8 +70,8 @@ class CompilersController < ApplicationController
     @shown_ruby
   end
 
-  def available_benchmarks(ruby)
-    ruby.ruby_benchmarks.uniq.sort_by(&:name)
+  def available_benchmarks
+    RubyBenchmark.not_custom.sort_by(&:name)
   end
 
 end

@@ -42,17 +42,20 @@ class Api::V1::ResultsController < Api::V1::ApiController
         rb.save
       end
 
+      stdout = (params[:stdout] ? params[:stdout] : "").gsub("\\n", "\n")
+      stderr = (params[:stderr] ? params[:stderr] : "").gsub("\\n", "\n")
 
       result = Result.new(
         time: params[:time].to_d.round(4),
         run_at: Time.parse(params[:run_at]),
         gcc: params[:gcc_version],
         memory: params[:memory].to_d.round(4),
-        total_memory: params[:total_memory].to_d.round(4)
+        total_memory: params[:total_memory].to_d.round(4),
+        stdout: stdout,
+        stderr: stderr
       )
       result.ruby_version = rv
       result.ruby_benchmark = rb
-
 
       if result.save
         render json: {status: 'OK'}

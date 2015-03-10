@@ -18,10 +18,13 @@ require 'net/http'
 #
 
 class RubyBenchmark < ActiveRecord::Base
-  default_scope { where("benchmark_collection <> 'special'") }
 
   def to_param
     self.name
+  end
+
+  def self.not_custom
+    self.where.not(benchmark_collection: 'custom')
   end
 
   has_many :ruby_versions, through: :results
