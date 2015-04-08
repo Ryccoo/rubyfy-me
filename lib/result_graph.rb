@@ -75,6 +75,8 @@ class ResultGraph
   end
 
   def compilers_overview(results = @results)
+    compilers_count = results.collect(&:gcc).uniq.count
+
     benchmarks = {}
     results.each do |r|
       (benchmarks[r.ruby_benchmark] ||= []) << r
@@ -84,6 +86,7 @@ class ResultGraph
     benchmarks_percentages = {}
 
     benchmarks.each do |benchmark, results|
+      next if results.collect(&:gcc).uniq.count != compilers_count
       benchmark_averages[benchmark] = {}
       benchmarks_percentages[benchmark] = {}
       # get averages

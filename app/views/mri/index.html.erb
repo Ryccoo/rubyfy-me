@@ -23,18 +23,18 @@
 <div class="row">
   <div class="col-xs-12">
     <%= render partial: 'benchmarks/overview', locals:
-      { results: @results, type: :time, title: 'Execution time performance', tooltip: 'from average execution time' } %>
+      { results: @results, type: :time, title: 'Execution time performance', tooltip: 'from average execution time', x_text: 'MRI versions' } %>
   </div>
 </div>
 
 <div class="row">
   <div class="col-xs-6">
     <%= render partial: 'benchmarks/overview', locals:
-      { results: @results, type: :memory, title: 'Memory performance', tooltip: 'from average memory usage' } %>
+      { results: @results, type: :memory, title: 'Memory performance', tooltip: 'from average memory usage', x_text: 'MRI versions' } %>
   </div>
 
   <div class="col-xs-6">
     <%= render partial: 'benchmarks/overview', locals:
-      { results: @results, type: :total_memory, title: 'Total executable memory performance', tooltip: 'from average total memory usage' } %>
+      { results: @results, type: :total_memory, title: 'Total executable memory performance', tooltip: 'from average total memory usage', x_text: 'MRI versions' } %>
   </div>
 </div>
