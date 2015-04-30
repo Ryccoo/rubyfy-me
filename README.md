@@ -72,6 +72,9 @@ ENVIRONMENT SETTINGS
 
     BENCH_SKIP_STARTUP_TEST=true     Skip docker images test on suite start. Default value is false.
 
+    BENCH_TIMEOUT=x                  Maximum time for each run in seconds. Default value is 300.
+                                      After this time run is terminated and 'TIMEOUT' is stored in results
+    
     VERBOSE=true                     Verbose mode. Default is false.
 
   RubyFy.Me options for publishing to rails app
