@@ -4,7 +4,6 @@
   <title>Rubyfy.ME - <%= yield :title %></title>
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
-  <script src="http://code.highcharts.com/highcharts-3d.js"></script>
   <%= csrf_meta_tags %>
   <%= analytics_init if Rails.env.production? %>
   <meta name="description" content="Rubyfy.ME is an open source project focused on benchmarking MRI ruby versions from 1.8.6. as well as benchmarking other implementations of ruby." />
