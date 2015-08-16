@@ -1,0 +1,55 @@
+<% partial_name ||= 'benchmarks/overview' %>
+
+<div class="bench-overview">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 text-center">
+        <h1>Overview</h1>
+      </div>
+      <div class="col-xs-12 col-md-offset-1 col-md-10">
+        <h3>How do we calculate overview ?</h3>
+        First an average is calculated for each benchmark and a difference from that average (in %) is stored for each Ruby configuration.
+        <br>
+        Finally an average is evaluated using differences from each benchmark allowing to populate graph showing "Average difference from average" across selected benchmarks.
+        <br><br>
+        <p class="ruby">Only benchmarks completed by all versions all taken into account.</p>
+        <p>
+        <h4>Used benchmarks: <%= used.count %></h4>
+        <% if used.count > 0 %>
+          Following benchmarks were completed by all selected versions and are used in the overview:
+          <%= used.map(&:name).join(', ') %>
+        <% end %>
+        <h4>Omitted benchmarks: <%= omitted.count %></h4>
+        <% if omitted.count > 0 %>
+          Following benchmarks were NOT completed by all selected versions, thus are omitted from overview :
+          <%= omitted.map(&:name).join(', ') %>
+        <% end %>
+        </p>
+      </div>
+    </div>
+
+    <br><br>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <%= render partial: partial_name,
+                   locals:
+                       { results: overview_results, type: :time, title: 'Execution time performance', tooltip: 'from average execution time', x_text: x_text } %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-6">
+        <%= render partial: partial_name,
+                   locals:
+                       { results: overview_results, type: :memory, title: 'Memory performance', tooltip: 'from average memory usage', x_text: x_text } %>
+      </div>
+
+      <div class="col-xs-6">
+        <%= render partial: partial_name,
+                   locals:
+                       { results: overview_results, type: :total_memory, title: 'Total executable memory performance', tooltip: 'from average total memory usage', x_text: x_text } %>
+      </div>
+    </div>
+  </div>
+</div>

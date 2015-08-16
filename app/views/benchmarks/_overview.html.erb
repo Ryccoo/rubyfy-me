@@ -3,6 +3,7 @@
   $(function () {
     $('#time_chart_overview_<%= type %>').highcharts({
       chart: {
+        backgroundColor: '#FFF',
         type: 'column',
         zoomType: 'x'
       },
@@ -18,7 +19,7 @@
       yAxis: {
 //        type: 'logarithmic',
         title: {
-          text: 'Percentage from average'
+          text: 'Difference from average (in %)'
         },
 //        min: 0
       },

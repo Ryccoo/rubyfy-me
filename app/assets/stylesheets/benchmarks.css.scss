@@ -4,5 +4,71 @@
 
 .custom_label {
   margin-right: 15px;
-  background-color: #fafafa;
+  min-width: 265px;
+}
+
+.source-div {
+  width: 100%;
+  background: #333 none;
+  padding-bottom: 15px;
+}
+
+.bench-navigation {
+  margin-top: -20px;
+  background: #000 none;
+  padding: 40px 0px;
+  color: white;
+  text-transform: uppercase;
+  font-weight: 800;
+  font-size: 20px;
+
+  a {
+    color: white;
+    text-decoration: none;
+  }
+
+  a:active {
+    color: white;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: #cc342d;
+    text-decoration: none;
+    font-weight: 900;
+  }
+}
+
+.bench-select {
+  background: #fff none;
+  padding: 40px 0px 55px 0px;
+}
+
+.bottom-padding {
+  padding-bottom: 15px;
+}
+
+.disable {
+  opacity: 0.5;
+}
+
+.bench-overview {
+  background: #fff none;
+  padding-bottom: 15px;
+}
+
+.bench-checkboxes {
+  padding-bottom: 0pxpx;
+}
+
+.select-group-row {
+  background: #cc342d none;
+  color: #fff;
+  padding-bottom: 5px;
+  margin-bottom: 2px;
+}
+
+.select-submit-row {
+  background: #333 none;
+  padding: 15px 0px
 }

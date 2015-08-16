@@ -4,13 +4,7 @@ require 'coderay'
 class ImplementationsController < ApplicationController
 
   def index
-    # redirect_to implementation_path(RubyBenchmark.first)
-    mri_shown = RubyVersion.where(implementation: 'MRI').order('name DESC').first(5)
-    query = Result.not_custom.includes(:ruby_version, :ruby_benchmark).where(ruby_versions: {implementation: ['JRuby', 'Rubinius']}) +
-      Result.not_custom.includes(:ruby_version, :ruby_benchmark).where(ruby_version_id: mri_shown, gcc: 'GCC 4.8 -O3')
-    @results = ResultGraph.new().versions_overview(query)
-
-
+    redirect_to implementation_path(RubyBenchmark.first)
   end
 
   def show
@@ -25,16 +19,19 @@ class ImplementationsController < ApplicationController
   end
 
   def select
-    @selected = params[:b] || []
+    load_selected_benchmarks
 
     @grouped_benchmarks = RubyBenchmark.not_custom.order(:name).inject({}) do |hsh, bench|
       (hsh[bench.benchmark_collection] ||= []) << bench
       hsh
     end
 
-    benchmarks = RubyBenchmark.includes(:results, :ruby_versions).where(id: @selected)
+    if @benchmarks_data.count > 0
+      @overview = ResultGraph.new().versions_overview(query_for(@benchmarks_data))
+      @overview[:omitted] = @benchmarks_data - @overview[:benchmarks_computed]
+    end
 
-    @benchmarks = benchmarks.inject({}) do |hsh, bench|
+    @benchmarks = @benchmarks_data.inject({}) do |hsh, bench|
       hsh[bench] = ResultGraph.new(bench).average_for_version(query_for(bench))
       hsh
     end
@@ -52,13 +49,13 @@ class ImplementationsController < ApplicationController
   end
 
   private
-  def query_for(benchmark)
+  def query_for(benchmarks)
     mri_shown = RubyVersion.where(implementation: 'MRI').order('name DESC').first(5)
 
-    query = benchmark.results.includes(:ruby_version)
-    .where(ruby_versions: {implementation: ['JRuby', 'Rubinius']}) +
-      benchmark.results.includes(:ruby_version)
-      .where(ruby_version_id: mri_shown, gcc: 'GCC 4.8 -O3')
+    query = Result.includes(:ruby_version, :ruby_benchmark)
+              .where(ruby_versions: {implementation: ['JRuby', 'Rubinius']}, ruby_benchmark: benchmarks) +
+            Result.includes(:ruby_version, :ruby_benchmark)
+              .where(ruby_version_id: mri_shown, gcc: 'GCC 4.8 -O3', ruby_benchmark: benchmarks)
 
     query
   end

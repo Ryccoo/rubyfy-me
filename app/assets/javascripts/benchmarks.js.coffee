@@ -33,3 +33,18 @@ window.toggle_full_screen = (selector) ->
     element.addClass 'modal-chart'
 
   element.highcharts().reflow()
+
+class window.benchmark_checkboxes
+  constructor: ->
+    $('.group_checkbox').on 'change', ->
+      $row =  $(this).closest('.select-group').find('.checkboxes')
+      $checkboxes = $row.find('input[type="checkbox"]')
+
+      state = $(this).prop('checked')
+
+      if state
+        $row.addClass('disable')
+        $checkboxes.attr('disabled', 'disabled')
+      else
+        $row.removeClass('disable')
+        $checkboxes.removeAttr('disabled')

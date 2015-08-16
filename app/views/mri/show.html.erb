@@ -3,28 +3,29 @@
   MRI Benchmark - <%= @benchmark.name.capitalize %>
 <% end %>
 
-<%= render partial: 'navigation' %>
+<%= render partial: 'shared/benchmarks_navigation',
+           locals:
+               {
+                   single: mri_path(RubyBenchmark.first, ruby: @shown_ruby),
+                   multiple: select_mri_index_path(ruby: @shown_ruby)
+               } %>
 
-<div class="row">
-  <div class="col-xs-12 text-center">
-    <h2 class="ruby">Select benchmark</h2>
-  </div>
-</div>
-<div class="row">
-  <div class="col-xs-9">
-    <%= select_tag(:ruby_benchmark, grouped_options_for_select(@grouped_benchmarks, @benchmark.name),
-                   allow_blank: false, class: 'form-control', data: { section: 'mri' }) %>
-  </div>
-  <div class="col-xs-3">
-    <%= link_to 'Select multiple', select_mri_index_path, class: 'btn btn-primary col-xs-12' %>
-  </div>
-</div>
-<br>
-<hr>
+
+<%= render partial: 'shared/benchmarks_select',
+           locals:
+               {
+                   select: select_tag(:ruby_benchmark, grouped_options_for_select(@grouped_benchmarks, @benchmark.name),
+                       allow_blank: false, class: 'form-control', data: { section: 'mri' })
+               } %>
 
 <%= render partial: 'benchmarks/benchmark',
-           locals: { benchmark: @benchmark, results: @results, source_hidden: false, title_hidden: true,
-                     runs_path: runs_mri_path(@benchmark), section_bench_path: mri_path(@benchmark) } %>
+           locals: {
+               benchmark: @benchmark,
+               results: @results,
+               source_hidden: false,
+               title_hidden: false,
+               runs_path: runs_mri_path(@benchmark), section_bench_path: mri_path(@benchmark)
+           } %>
 
 <%= javascript_tag 'new window.benchmark_selector()' %>
 <%= javascript_tag 'new window.source_toggle()' %>

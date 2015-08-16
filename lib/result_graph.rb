@@ -84,9 +84,13 @@ class ResultGraph
 
     benchmark_averages = {}
     benchmarks_percentages = {}
+    benchmarks_computed = []
 
     benchmarks.each do |benchmark, results|
-      next if results.collect(&:gcc).uniq.count != compilers_count
+      if results.collect(&:gcc).uniq.count != compilers_count
+        next
+      end
+      benchmarks_computed << benchmark
       benchmark_averages[benchmark] = {}
       benchmarks_percentages[benchmark] = {}
       # get averages
@@ -146,6 +150,10 @@ class ResultGraph
     end
 
     version_compiler_percentages
+    {
+        benchmarks_computed: benchmarks_computed,
+        results: version_compiler_percentages
+    }
   end
 
   def versions_overview(results = @results)
@@ -159,11 +167,16 @@ class ResultGraph
     benchmark_averages = {}
     benchmarks_percentages = {}
     version_percentages = {}
+    benchmarks_computed = []
 
     benchmarks.each do |benchmark, results|
 
       # skip if benchmark was not completed by all versions
-      next if results.collect(&:ruby_version).uniq.count != versions_count
+      if results.collect(&:ruby_version).uniq.count != versions_count
+        next
+      end
+      benchmarks_computed << benchmark
+
       benchmark_averages[benchmark] = {
         version_average_time: 0,
         version_average_memory: 0,
@@ -213,6 +226,10 @@ class ResultGraph
     end
 
     version_percentages
+    {
+        benchmarks_computed: benchmarks_computed,
+        results: version_percentages
+    }
   end
 
 end

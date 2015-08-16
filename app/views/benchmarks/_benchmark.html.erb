@@ -1,44 +1,49 @@
 <% source_hidden ||= false %>
 <% title_hidden ||= false %>
 
-<% unless title_hidden %>
+<div class="container bottom-padding">
+  <% unless title_hidden %>
+    <div class="row">
+      <div class="col-xs-12 text-center">
+        <h1><%= link_to benchmark.name, section_bench_path %></h1>
+      </div>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="col-xs-12">
+      <%= render partial: 'benchmarks/benchmark_average', locals: { benchmark: benchmark, results: results } %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-xs-12">
+      <%= render partial: 'benchmarks/benchmark_memory_average', locals: { benchmark: benchmark, results: results } %>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <%= render partial: 'benchmarks/benchmark_memory_total', locals: { benchmark: benchmark, results: results } %>
+    </div>
+  </div>
+
+  <br>
   <div class="row">
     <div class="col-xs-12 text-center">
-      <h1><%= link_to benchmark.name, section_bench_path %></h1>
+      <%= link_to 'Display results of each run', runs_path, class: 'text-center btn btn-primary', remote: true, type: :script %>
     </div>
   </div>
-<% end %>
-<div class="row">
-  <div class="col-xs-12">
-    <%= render partial: 'benchmarks/benchmark_average', locals: { benchmark: benchmark, results: results } %>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-6 col-xs-12">
-    <%= render partial: 'benchmarks/benchmark_memory_average', locals: { benchmark: benchmark, results: results } %>
-  </div>
-  <div class="col-md-6 col-xs-12">
-    <%= render partial: 'benchmarks/benchmark_memory_total', locals: { benchmark: benchmark, results: results } %>
-  </div>
 </div>
 
-<br>
-<div class="row">
-  <div class="col-xs-12 text-center">
-    <%= link_to 'Display results of each run', runs_path, class: 'text-center btn btn-primary', remote: true %>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-xs-10 col-xs-offset-1 text-center">
-    <h2 class="ruby">Source <button class="btn btn-primary btn-sm" data-toggle-btn="true" data-toggle-elem="<%= benchmark.name %>">hide / show</button></h2>
-    <div class="custom-well CodeRay text-left" data-toggle-name="<%= benchmark.name %>" style="display: <%= 'none' if source_hidden %>;">
+<div class="source-div">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-10 col-xs-offset-1 text-center">
+        <h2 class="ruby">Source <button class="btn btn-primary btn-sm" data-toggle-btn="true" data-toggle-elem="<%= benchmark.name %>">hide / show</button></h2>
+        <div class="custom-well CodeRay text-left" data-toggle-name="<%= benchmark.name %>" style="display: <%= 'none' if source_hidden %>;">
       <pre><%= CodeRay.scan(benchmark.source, :ruby).html(
-                 :wrap => nil,
-                 :line_numbers => :inline
+                   :wrap => nil,
+                   :line_numbers => :inline
                ).html_safe %>
       </pre>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-<hr>

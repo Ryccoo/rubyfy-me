@@ -1,0 +1,46 @@
+<div class="bench-checkboxes">
+  <%= form_tag submit_path, method: :get do %>
+    <% @grouped_benchmarks.each do |group, benchmarks| %>
+      <div class="select-group">
+        <div class="select-group-row">
+          <div class="container">
+            <div class="row">
+              <div class="col-xs-6">
+                <h2>
+                  <%= group.capitalize %>
+                </h2>
+              </div>
+              <div class="pull-right col-xs-6" style="padding-top: 22px; font-size: 20px; text-align: right">
+                <%= label_tag '', class: 'custom_label' do %>
+                  <%= check_box_tag 'bg[]', group, @groups.include?(group), class: 'group_checkbox' %> Select group
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row checkboxes <%= 'disable' if @groups.include?(group) %>">
+            <div class="col-xs-12">
+              <% benchmarks.each do |benchmark| %>
+                <%= label_tag '', class: 'custom_label' do %>
+                  <%= check_box_tag 'b[]', benchmark.id, (@selected.include?(benchmark.id.to_s)), disabled: @groups.include?(group) %> <%= benchmark.name %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <br>
+    <div class="select-submit-row">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12">
+            <%= submit_tag 'Submit', class: 'btn btn-success col-xs-12' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <%= javascript_tag 'new window.benchmark_checkboxes()' %>
+</div>

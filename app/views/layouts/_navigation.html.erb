@@ -1,5 +1,5 @@
 <li class="<%= active_page('home') %>"><%= link_to 'Home', root_path %></li>
-<li class="<%= active_page('mri') %>"><%= link_to 'MRI Benchmarks', mri_index_path %></li>
+<li class="<%= active_page('mri') %>"><%= link_to 'MRI Benchmarks', mri_path(RubyBenchmark.first, ruby: @shown_ruby) %></li>
 <li class="<%= active_page('compilers') %>"><%= link_to 'Compiler Benchmarks', compilers_path %></li>
 <li class="<%= active_page('implementations') %>"><%= link_to 'Implementations Benchmarks', implementations_path %></li>
 <li class="<%= active_page('custom', 'parallelism') %>"><%= link_to 'Parallelism', parallelism_custom_index_path %></li>

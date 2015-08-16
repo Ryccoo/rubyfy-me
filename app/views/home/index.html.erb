@@ -1,16 +1,17 @@
 <%= content_for :title do %>
   Home
 <% end %>
-
-<div class="row">
-  <div class="col-md-4 col-xs-12 col-md-push-8 left-border">
-    <h2>News</h2>
-    <br>
-    <%= render partial: 'news' %>
-  </div>
-  <div class="col-md-8 col-xs-12 col-md-pull-4">
-    <h2>Home</h2>
-    <br>
-    <%= render partial: 'home' %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 col-xs-12 col-md-push-8 left-border">
+      <h2>News</h2>
+      <br>
+      <%= render partial: 'news' %>
+    </div>
+    <div class="col-md-8 col-xs-12 col-md-pull-4">
+      <h2>Home</h2>
+      <br>
+      <%= render partial: 'home' %>
+    </div>
   </div>
 </div>

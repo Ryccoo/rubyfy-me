@@ -5,9 +5,7 @@ class CompilersController < ApplicationController
   before_action :available_ruby_versions, :shown_ruby
 
   def index
-    ruby = RubyVersion.where(name: shown_ruby, implementation: 'MRI' ).first
-    query = Result.not_custom.includes(:ruby_version, :ruby_benchmark).where(ruby_version_id: ruby)
-    @results = ResultGraph.new().compilers_overview(query)
+    redirect_to compiler_path(RubyBenchmark.first)
   end
 
   def show
@@ -22,17 +20,24 @@ class CompilersController < ApplicationController
   end
 
   def select
-    @selected = params[:b] || []
+    load_selected_benchmarks
 
     @grouped_benchmarks = available_benchmarks.inject({}) do |hsh, bench|
       (hsh[bench.benchmark_collection] ||= []) << bench
       hsh
     end
 
-    benchmarks = RubyBenchmark.includes(:results, :ruby_versions).where(id: @selected)
+    if @benchmarks_data.count > 0
+      @overview = ResultGraph.new().compilers_overview(query_for(@benchmarks_data, @shown_ruby))
+      @overview[:omitted] = @benchmarks_data - @overview[:benchmarks_computed]
+    end
 
-    @benchmarks = benchmarks.inject({}) do |hsh, bench|
-      hsh[bench] = ResultGraph.new(bench).average_for_version(query_for(bench, shown_ruby), with_compiler_separation: true)
+    @benchmarks = @benchmarks_data.inject({}) do |hsh, bench|
+      graph_data = ResultGraph.new(bench).average_for_version(query_for(bench, shown_ruby), with_compiler_separation: true)
+
+      unless graph_data.blank?
+        hsh[bench] = graph_data
+      end
 
       hsh
     end
@@ -50,9 +55,10 @@ class CompilersController < ApplicationController
   end
 
   private
-  def query_for(benchmark, ruby_version)
-    query = benchmark.results.includes(:ruby_version)
-        .where(ruby_versions: { name: ruby_version, implementation: 'MRI' } )
+
+  def query_for(benchmarks, ruby_version)
+    query = Result.includes(:ruby_version, :ruby_benchmark)
+        .where(ruby_versions: { name: ruby_version, implementation: 'MRI' }, ruby_benchmark: benchmarks )
 
     query
   end
@@ -71,7 +77,9 @@ class CompilersController < ApplicationController
   end
 
   def available_benchmarks
-    RubyBenchmark.not_custom.sort_by(&:name)
+    b = Result.includes(:ruby_version, :ruby_benchmark)
+        .where(ruby_versions: { name: @shown_ruby, implementation: 'MRI' }).collect(&:ruby_benchmark).uniq
+    RubyBenchmark.not_custom.where(id: b).order(:name)
   end
 
 end
