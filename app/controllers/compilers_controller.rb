@@ -9,7 +9,7 @@ class CompilersController < ApplicationController
   end
 
   def show
-    @grouped_benchmarks = RubyBenchmark.not_custom.order(:name).inject({}) do |hsh, bench|
+    @grouped_benchmarks = available_benchmarks.inject({}) do |hsh, bench|
       (hsh[bench.benchmark_collection] ||= []) << bench.name
       hsh
     end
